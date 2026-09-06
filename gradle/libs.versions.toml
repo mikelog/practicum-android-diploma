@@ -21,6 +21,37 @@ junitExt = "1.1.5"
 detekt = "1.23.8"
 detektTwitterComposeRules = "0.0.26"
 
+# Networking
+retrofit = "2.11.0"
+okhttpLogging = "4.12.0"
+gson = "2.11.0"
+
+# Database
+room = "2.6.1"
+
+# DI
+koin = "3.5.6"
+
+# Images
+coil = "2.6.0"
+
+# Navigation
+navigation = "2.7.7"
+
+# Compose
+composeBom = "2024.06.00"
+lifecycleViewModelCompose = "2.8.1"
+activityCompose = "1.9.0"
+
+# Coroutines
+coroutines = "1.8.1"
+
+# Lifecycle
+lifecycle = "2.8.1"
+
+# Fragment
+fragment = "1.8.0"
+
 [libraries]
 
 # AndroidX
@@ -45,4 +76,54 @@ staticAnalysis-detektPlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gra
 staticAnalysis-detektTest = { module = "io.gitlab.arturbosch.detekt:detekt-test", version.ref = "detekt" }
 staticAnalysis-detektTwitterComposeRules = { module = "com.twitter.compose.rules:detekt", version.ref = "detektTwitterComposeRules" }
 
+# Networking
+network-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+network-retrofitGson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+network-okhttpLogging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttpLogging" }
+network-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+
+# Database
+database-roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room" }
+database-roomKtx = { module = "androidx.room:room-ktx", version.ref = "room" }
+database-roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+# DI
+di-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+di-koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+di-koinCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+
+# Images
+images-coilCompose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+
+# Navigation
+navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
+
+# Compose
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-uiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-uiTooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+compose-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewModelCompose" }
+
+# Coroutines
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+
+# Lifecycle
+lifecycle-viewmodelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-livedataKtx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
+lifecycle-runtimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+lifecycle-runtimeCompose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+
+# Fragment
+fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
+
 [bundles]
+network = ["network-retrofit", "network-retrofitGson", "network-okhttpLogging"]
+database = ["database-roomRuntime", "database-roomKtx"]
+compose = ["compose-ui", "compose-uiToolingPreview", "compose-material3", "compose-activity", "compose-lifecycleViewmodel", "lifecycle-runtimeCompose"]
+coroutines = ["coroutines-core", "coroutines-android"]
+lifecycle = ["lifecycle-viewmodelKtx", "lifecycle-livedataKtx", "lifecycle-runtimeKtx"]
