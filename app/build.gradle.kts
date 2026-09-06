@@ -78,6 +78,7 @@ dependencies {
     // Navigation
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.navigation.compose)
 
     // Coroutines
     implementation(libs.bundles.coroutines)

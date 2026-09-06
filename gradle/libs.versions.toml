@@ -96,6 +96,7 @@ di-koinCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref 
 images-coilCompose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 
 # Navigation
+navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 
