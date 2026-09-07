@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.data.network
 
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -12,23 +11,23 @@ import ru.practicum.android.diploma.data.dto.VacancyResponseDto
 interface VacancyApiService {
 
     @GET("areas")
-    fun getAreas(): Call<List<FilterAreaDto>>
+    suspend fun getAreas(): List<FilterAreaDto>
 
     @GET("industries")
-    fun getIndustries(): Call<List<FilterIndustryDto>>
+    suspend fun getIndustries(): List<FilterIndustryDto>
 
     @GET("vacancies")
-    fun getVacancies(
+    suspend fun getVacancies(
         @Query("area") area: Int? = null,
         @Query("industry") industry: Int? = null,
         @Query("text") text: String? = null,
         @Query("salary") salary: Int? = null,
         @Query("page") page: Int? = null,
         @Query("only_with_salary") onlyWithSalary: Boolean? = null,
-    ): Call<VacancyResponseDto>
+    ): VacancyResponseDto
 
     @GET("vacancies/{id}")
-    fun getVacancyDetail(
+    suspend fun getVacancyDetail(
         @Path("id") id: String,
-    ): Call<VacancyDetailDto>
+    ): VacancyDetailDto
 }
