@@ -15,48 +15,6 @@ import org.junit.Test
 class DebounceTest {
 
     @Test
-    fun `action is not called before the delay elapses`() = runTest {
-        var calls = 0
-        val debounced = debounce<Int>(this, delayMillis = 1000L) { calls++ }
-
-        debounced(1)
-        advanceTimeBy(999L)
-        runCurrent()
-        assertEquals(0, calls)
-
-        advanceUntilIdle()
-        assertEquals(1, calls)
-    }
-
-    @Test
-    fun `useLastParam true runs only the last call`() = runTest {
-        val received = mutableListOf<Int>()
-        val debounced = debounce<Int>(this, delayMillis = 1000L, useLastParam = true) { received.add(it) }
-
-        debounced(1)
-        advanceTimeBy(500L)
-        debounced(2)
-        advanceTimeBy(500L)
-        debounced(3)
-        advanceUntilIdle()
-
-        assertEquals(listOf(3), received)
-    }
-
-    @Test
-    fun `useLastParam false runs the first call and ignores the rest`() = runTest {
-        val received = mutableListOf<Int>()
-        val debounced = debounce<Int>(this, delayMillis = 1000L, useLastParam = false) { received.add(it) }
-
-        debounced(1)
-        debounced(2)
-        debounced(3)
-        advanceUntilIdle()
-
-        assertEquals(listOf(1), received)
-    }
-
-    @Test
     fun `searchDebounce emits the settled value and skips duplicates`() = runTest {
         val result = flow {
             emit("a")
@@ -68,5 +26,44 @@ class DebounceTest {
         }.searchDebounce(2000L).toList()
 
         assertEquals(listOf("ab", "abc"), result)
+    }
+
+    @Test
+    fun `clickDebounce runs the first call immediately`() = runTest {
+        val received = mutableListOf<Int>()
+        val onClick = clickDebounce<Int>(this, delayMillis = 1000L) { received.add(it) }
+
+        onClick(1)
+        runCurrent()
+
+        assertEquals(listOf(1), received)
+    }
+
+    @Test
+    fun `clickDebounce ignores calls inside the blocking window`() = runTest {
+        val received = mutableListOf<Int>()
+        val onClick = clickDebounce<Int>(this, delayMillis = 1000L) { received.add(it) }
+
+        onClick(1)
+        advanceTimeBy(500L)
+        onClick(2)
+        advanceTimeBy(499L)
+        onClick(3)
+        advanceUntilIdle()
+
+        assertEquals(listOf(1), received)
+    }
+
+    @Test
+    fun `clickDebounce allows the next call after the window elapses`() = runTest {
+        val received = mutableListOf<Int>()
+        val onClick = clickDebounce<Int>(this, delayMillis = 1000L) { received.add(it) }
+
+        onClick(1)
+        advanceTimeBy(1001L)
+        onClick(2)
+        advanceUntilIdle()
+
+        assertEquals(listOf(1, 2), received)
     }
 }
