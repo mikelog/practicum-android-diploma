@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.util.navigation.ScreenRoute
@@ -22,7 +23,8 @@ fun TeamScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.team)) }
+                title = { Text(text = stringResource(R.string.team)) },
+                expandedHeight = 64.dp
             )
         }
     ) { innerPadding ->
@@ -33,7 +35,7 @@ fun TeamScreen(navController: NavController) {
         ) {
             // Зашлушка:
             Button(
-                onClick = { navController.navigate(ScreenRoute.Main.route) }
+                onClick = { navController.navigate(ScreenRoute.FilteringSettings.route) }
             ) {
                 Text(text = "NEXT")
             }

@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.main
+package ru.practicum.android.diploma.ui.filteringSettings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,18 +12,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavController) {
+fun FilteringSettingsScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.vacancy_search)) }
+                title = { Text(text = stringResource(R.string.filtering_settings)) },
+                expandedHeight = 64.dp
             )
         }
     ) { innerPadding ->
@@ -34,7 +35,7 @@ fun MainScreen(navController: NavController) {
         ) {
             // Зашлушка:
             Button(
-                onClick = { navController.navigate(ScreenRoute.Favorites.route) }
+                onClick = { navController.navigate(ScreenRoute.WorkplaceSelection.route) }
             ) {
                 Text(text = "NEXT")
             }

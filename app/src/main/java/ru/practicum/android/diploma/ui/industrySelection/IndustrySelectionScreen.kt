@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.favorites
+package ru.practicum.android.diploma.ui.industrySelection
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,11 +19,11 @@ import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FavoritesScreen(navController: NavController) {
+fun IndustrySelectionScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.favorites)) },
+                title = { Text(text = stringResource(R.string.industry_selection)) },
                 expandedHeight = 64.dp
             )
         }
@@ -35,11 +35,10 @@ fun FavoritesScreen(navController: NavController) {
         ) {
             // Зашлушка:
             Button(
-                onClick = { navController.navigate(ScreenRoute.Team.route) }
+                onClick = { navController.navigate(ScreenRoute.Vacancy.route) }
             ) {
                 Text(text = "NEXT")
             }
         }
     }
-
 }
