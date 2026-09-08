@@ -28,9 +28,10 @@ fun VacancyScreen(navController: NavController) {
             )
         }
     ) { innerPadding ->
-        Column( modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize(),
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Зашлушка:

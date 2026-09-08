@@ -17,7 +17,6 @@ import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainSearchScreen(navController: NavController) {
@@ -29,9 +28,10 @@ fun MainSearchScreen(navController: NavController) {
             )
         }
     ) { innerPadding ->
-        Column( modifier = Modifier
-            .padding(innerPadding)
-            .fillMaxSize(),
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Зашлушка:
