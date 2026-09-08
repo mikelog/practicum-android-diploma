@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.util.navigation
 
-sealed class ScreenRoute (val route: String) {
+sealed class ScreenRoute(val route: String) {
     object MainSearch : ScreenRoute("main-search")
     object Favorites : ScreenRoute("favorites")
     object Team : ScreenRoute("team")
