@@ -38,7 +38,7 @@ fun WorkplaceSelectionScreen(navController: NavController) {
             Button(
                 onClick = { navController.navigate(ScreenRoute.CountrySelection.route) }
             ) {
-                Text(text = "NEXT")
+                Text(text = "Выбор страны")
             }
         }
     }

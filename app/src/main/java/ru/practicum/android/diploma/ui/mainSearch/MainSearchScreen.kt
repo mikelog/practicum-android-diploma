@@ -36,9 +36,14 @@ fun MainSearchScreen(navController: NavController) {
         ) {
             // Зашлушка:
             Button(
-                onClick = { navController.navigate(ScreenRoute.Favorites.route) }
+                onClick = { navController.navigate(ScreenRoute.FilteringSettings.route) }
             ) {
-                Text(text = "NEXT")
+                Text(text = "Настройки фильтрации")
+            }
+            Button(
+                onClick = { navController.navigate(ScreenRoute.Vacancy.route) }
+            ) {
+                Text(text = "Вакансия")
             }
         }
     }

@@ -38,8 +38,15 @@ fun FilteringSettingsScreen(navController: NavController) {
             Button(
                 onClick = { navController.navigate(ScreenRoute.WorkplaceSelection.route) }
             ) {
-                Text(text = "NEXT")
+                Text(text = "Выбор места работы")
             }
+
+            Button(
+                onClick = { navController.navigate(ScreenRoute.IndustrySelection.route) }
+            ) {
+                Text(text = "Выбор отрасли")
+            }
+
         }
     }
 }
