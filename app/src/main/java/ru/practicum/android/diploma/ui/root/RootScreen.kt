@@ -8,15 +8,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.practicum.android.diploma.R
@@ -25,8 +28,8 @@ import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
 @Composable
 fun RootScreen() {
-
     val navController = rememberNavController()
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
@@ -36,9 +39,18 @@ fun RootScreen() {
         ScreenRoute.Team.route
     )
 
-    val showBottomBar = currentRoute in bottomBarRoutes
+    val showBottomBar = currentRoute != null && currentRoute in bottomBarRoutes
+
+    val navigationItemColors = NavigationBarItemDefaults.colors(
+        selectedIconColor = MaterialTheme.colorScheme.primary,
+        selectedTextColor = MaterialTheme.colorScheme.primary,
+        indicatorColor = Color.Transparent,
+        unselectedIconColor = MaterialTheme.colorScheme.outline,
+        unselectedTextColor = MaterialTheme.colorScheme.outline
+    )
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             if (showBottomBar) {
                 Column {
@@ -48,13 +60,26 @@ fun RootScreen() {
                     )
                     NavigationBar(
                         modifier = Modifier.height(57.dp),
-                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                        containerColor = MaterialTheme.colorScheme.surface,
+                        contentColor = MaterialTheme.colorScheme.onSurface,
+                        tonalElevation = 0.dp
                     ) {
                         NavigationBarItem(
-                            selected = currentRoute == ScreenRoute.MainSearch.route,
+                            selected = currentRoute ==
+                                ScreenRoute.MainSearch.route,
                             onClick = {
-                                navController.navigate(ScreenRoute.MainSearch.route) {
+                                navController.navigate(
+                                    ScreenRoute.MainSearch.route
+                                ) {
+                                    popUpTo(
+                                        navController.graph
+                                            .findStartDestination()
+                                            .id
+                                    ) {
+                                        saveState = true
+                                    }
                                     launchSingleTop = true
+                                    restoreState = true
                                 }
                             },
                             icon = {
@@ -62,19 +87,35 @@ fun RootScreen() {
                                     imageVector = ImageVector.vectorResource(
                                         R.drawable.ic_main_24dp
                                     ),
-                                    contentDescription = null
+                                    contentDescription = stringResource(
+                                        R.string.main
+                                    )
                                 )
                             },
                             label = {
-                                Text(stringResource(R.string.main))
-                            }
+                                Text(
+                                    text = stringResource(R.string.main)
+                                )
+                            },
+                            colors = navigationItemColors
                         )
 
                         NavigationBarItem(
-                            selected = currentRoute == ScreenRoute.Favorites.route,
+                            selected = currentRoute ==
+                                ScreenRoute.Favorites.route,
                             onClick = {
-                                navController.navigate(ScreenRoute.Favorites.route) {
+                                navController.navigate(
+                                    ScreenRoute.Favorites.route
+                                ) {
+                                    popUpTo(
+                                        navController.graph
+                                            .findStartDestination()
+                                            .id
+                                    ) {
+                                        saveState = true
+                                    }
                                     launchSingleTop = true
+                                    restoreState = true
                                 }
                             },
                             icon = {
@@ -82,19 +123,38 @@ fun RootScreen() {
                                     imageVector = ImageVector.vectorResource(
                                         R.drawable.ic_favorites_off_24dp
                                     ),
-                                    contentDescription = null
+                                    contentDescription = stringResource(
+                                        R.string.favorites
+                                    )
                                 )
                             },
                             label = {
-                                Text(stringResource(R.string.favorites))
-                            }
+                                Text(
+                                    text = stringResource(
+                                        R.string.favorites
+                                    )
+                                )
+                            },
+                            colors = navigationItemColors
                         )
 
                         NavigationBarItem(
-                            selected = currentRoute == ScreenRoute.Team.route,
+                            selected = currentRoute ==
+                                ScreenRoute.Team.route,
                             onClick = {
-                                navController.navigate(ScreenRoute.Team.route) {
+                                navController.navigate(
+                                    ScreenRoute.Team.route
+                                ) {
+                                    popUpTo(
+                                        navController.graph
+                                            .findStartDestination()
+                                            .id
+                                    ) {
+                                        saveState = true
+                                    }
+
                                     launchSingleTop = true
+                                    restoreState = true
                                 }
                             },
                             icon = {
@@ -102,12 +162,17 @@ fun RootScreen() {
                                     imageVector = ImageVector.vectorResource(
                                         R.drawable.ic_team_24dp
                                     ),
-                                    contentDescription = null
+                                    contentDescription = stringResource(
+                                        R.string.team
+                                    )
                                 )
                             },
                             label = {
-                                Text(stringResource(R.string.team))
-                            }
+                                Text(
+                                    text = stringResource(R.string.team)
+                                )
+                            },
+                            colors = navigationItemColors
                         )
                     }
                 }
