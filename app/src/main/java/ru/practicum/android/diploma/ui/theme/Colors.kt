@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber") // ARGB-литералы палитры — это и есть именованные константы
+
 package ru.practicum.android.diploma.ui.theme
 
 import androidx.compose.ui.graphics.Color
