@@ -1,7 +1,9 @@
 package ru.practicum.android.diploma.ui.root
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -28,51 +30,94 @@ fun RootScreen() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
+    val bottomBarRoutes = setOf(
+        ScreenRoute.MainSearch.route,
+        ScreenRoute.Favorites.route,
+        ScreenRoute.Team.route
+    )
+
+    val showBottomBar = currentRoute in bottomBarRoutes
+
     Scaffold(
         bottomBar = {
-
-            NavigationBar(
-                modifier = Modifier.height(57.dp),
-                containerColor = MaterialTheme.colorScheme.surfaceContainer,
-            ) {
-                NavigationBarItem(
-                    selected = currentRoute == ScreenRoute.MainSearch.route,
-                    onClick = { navController.navigate(ScreenRoute.MainSearch.route) },
-                    icon = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_main_24dp),
-                            contentDescription = null
+            if (showBottomBar) {
+                Column {
+                    HorizontalDivider(
+                        thickness = 1.dp,
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+                    NavigationBar(
+                        modifier = Modifier.height(57.dp),
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer
+                    ) {
+                        NavigationBarItem(
+                            selected = currentRoute == ScreenRoute.MainSearch.route,
+                            onClick = {
+                                navController.navigate(ScreenRoute.MainSearch.route) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(
+                                        R.drawable.ic_main_24dp
+                                    ),
+                                    contentDescription = null
+                                )
+                            },
+                            label = {
+                                Text(stringResource(R.string.main))
+                            }
                         )
-                    },
-                    label = { Text(stringResource(R.string.main)) }
-                )
 
-                NavigationBarItem(
-                    selected = currentRoute == ScreenRoute.Favorites.route,
-                    onClick = { navController.navigate(ScreenRoute.Favorites.route) },
-                    icon = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_favorites_off_24dp),
-                            contentDescription = null
+                        NavigationBarItem(
+                            selected = currentRoute == ScreenRoute.Favorites.route,
+                            onClick = {
+                                navController.navigate(ScreenRoute.Favorites.route) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(
+                                        R.drawable.ic_favorites_off_24dp
+                                    ),
+                                    contentDescription = null
+                                )
+                            },
+                            label = {
+                                Text(stringResource(R.string.favorites))
+                            }
                         )
-                    },
-                    label = { Text(stringResource(R.string.favorites)) }
-                )
 
-                NavigationBarItem(
-                    selected = currentRoute == ScreenRoute.Team.route,
-                    onClick = { navController.navigate(ScreenRoute.Team.route) },
-                    icon = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_team_24dp),
-                            contentDescription = null
+                        NavigationBarItem(
+                            selected = currentRoute == ScreenRoute.Team.route,
+                            onClick = {
+                                navController.navigate(ScreenRoute.Team.route) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = ImageVector.vectorResource(
+                                        R.drawable.ic_team_24dp
+                                    ),
+                                    contentDescription = null
+                                )
+                            },
+                            label = {
+                                Text(stringResource(R.string.team))
+                            }
                         )
-                    },
-                    label = { Text(stringResource(R.string.team)) }
-                )
+                    }
+                }
             }
         }
     ) { innerPadding ->
-        NavGraph(ScreenRoute.MainSearch.route, navController, modifier = Modifier.padding(innerPadding))
+        NavGraph(
+            startDestination = ScreenRoute.MainSearch.route,
+            navController = navController,
+            modifier = Modifier.padding(innerPadding)
+        )
     }
 }
