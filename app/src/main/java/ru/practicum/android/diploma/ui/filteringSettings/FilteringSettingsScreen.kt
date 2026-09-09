@@ -12,9 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.ui.theme.Dimens
 import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,7 +24,7 @@ fun FilteringSettingsScreen(navController: NavController) {
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(R.string.filtering_settings)) },
-                expandedHeight = 64.dp
+                expandedHeight = Dimens.topBarHeight
             )
         }
     ) { innerPadding ->

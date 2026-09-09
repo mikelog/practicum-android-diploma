@@ -18,11 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.ui.theme.Dimens
 import ru.practicum.android.diploma.util.navigation.NavGraph
 import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
@@ -55,14 +55,14 @@ fun RootScreen() {
             if (showBottomBar) {
                 Column {
                     HorizontalDivider(
-                        thickness = 1.dp,
+                        thickness = Dimens.dividerThickness,
                         color = MaterialTheme.colorScheme.outlineVariant
                     )
                     NavigationBar(
-                        modifier = Modifier.height(57.dp),
+                        modifier = Modifier.height(Dimens.bottomBarHeight),
                         containerColor = MaterialTheme.colorScheme.surface,
                         contentColor = MaterialTheme.colorScheme.onSurface,
-                        tonalElevation = 0.dp
+                        tonalElevation = Dimens.elevationNone
                     ) {
                         NavigationBarItem(
                             selected = currentRoute ==
