@@ -2,16 +2,16 @@ package ru.practicum.android.diploma.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import ru.practicum.android.diploma.R
 
-/**
- * Кастомные шрифты из res/font пока не поставлены в макете —
- * используется системное семейство. При добавлении файлов шрифтов
- * достаточно заменить [AppFontFamily].
- */
-private val AppFontFamily = FontFamily.Default
+private val AppFontFamily = FontFamily(
+    Font(R.font.ys_display_regular, FontWeight.Normal),
+    Font(R.font.ys_display_medium, FontWeight.Medium)
+)
 
 val AppTypography = Typography(
     titleLarge = TextStyle(
