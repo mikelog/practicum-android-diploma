@@ -32,8 +32,6 @@ fun FavoritesScreen(navController: NavController) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
         }
     }
-
 }

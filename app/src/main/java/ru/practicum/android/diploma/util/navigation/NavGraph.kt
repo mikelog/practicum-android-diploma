@@ -5,14 +5,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ru.practicum.android.diploma.ui.countrySelection.CountrySelectionScreen
+import ru.practicum.android.diploma.ui.countryselection.CountrySelectionScreen
 import ru.practicum.android.diploma.ui.favorites.FavoritesScreen
-import ru.practicum.android.diploma.ui.filteringSettings.FilteringSettingsScreen
-import ru.practicum.android.diploma.ui.industrySelection.IndustrySelectionScreen
-import ru.practicum.android.diploma.ui.mainSearch.MainSearchScreen
+import ru.practicum.android.diploma.ui.filteringsettings.FilteringSettingsScreen
+import ru.practicum.android.diploma.ui.industryselection.IndustrySelectionScreen
+import ru.practicum.android.diploma.ui.mainsearch.MainSearchScreen
 import ru.practicum.android.diploma.ui.team.TeamScreen
 import ru.practicum.android.diploma.ui.vacancy.VacancyScreen
-import ru.practicum.android.diploma.ui.workplaceSelection.WorkplaceSelectionScreen
+import ru.practicum.android.diploma.ui.workplaceselection.WorkplaceSelectionScreen
 
 @Composable
 fun NavGraph(
@@ -20,8 +20,6 @@ fun NavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-  //  val navController = rememberNavController()
-
     NavHost(
         navController = navController,
         startDestination = startDestination,

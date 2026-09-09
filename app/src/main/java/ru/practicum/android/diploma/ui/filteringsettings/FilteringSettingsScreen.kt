@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.mainSearch
+package ru.practicum.android.diploma.ui.filteringsettings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,11 +19,11 @@ import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainSearchScreen(navController: NavController) {
+fun FilteringSettingsScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.vacancy_search)) },
+                title = { Text(text = stringResource(R.string.filtering_settings)) },
                 expandedHeight = Dimens.topBarHeight
             )
         }
@@ -36,15 +36,17 @@ fun MainSearchScreen(navController: NavController) {
         ) {
             // Зашлушка:
             Button(
-                onClick = { navController.navigate(ScreenRoute.FilteringSettings.route) }
+                onClick = { navController.navigate(ScreenRoute.WorkplaceSelection.route) }
             ) {
-                Text(text = "Настройки фильтрации")
+                Text(text = "Выбор места работы")
             }
+
             Button(
-                onClick = { navController.navigate(ScreenRoute.Vacancy.route) }
+                onClick = { navController.navigate(ScreenRoute.IndustrySelection.route) }
             ) {
-                Text(text = "Вакансия")
+                Text(text = "Выбор отрасли")
             }
+
         }
     }
 }
