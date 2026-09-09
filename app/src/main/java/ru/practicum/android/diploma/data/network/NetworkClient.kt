@@ -14,7 +14,6 @@ object NetworkClient {
 
     private const val BASE_URL = "https://android-diploma.education-services.ru/"
     private const val AUTHORIZATION_HEADER = "Authorization"
-    private const val AUTHORIZATION_HEADER_SCHEME = "Bearer"
     private const val CONNECT_TIMEOUT_SECONDS = 30L
     private const val READ_TIMEOUT_SECONDS = 30L
     private const val NO_INTERNET_CODE = -1
@@ -22,7 +21,7 @@ object NetworkClient {
     private val authInterceptor = Interceptor { chain ->
         val token = BuildConfig.API_ACCESS_TOKEN
         val request = chain.request().newBuilder()
-            .header(AUTHORIZATION_HEADER, "$AUTHORIZATION_HEADER_SCHEME $token")
+            .header(AUTHORIZATION_HEADER, token)
             .build()
         chain.proceed(request)
     }
