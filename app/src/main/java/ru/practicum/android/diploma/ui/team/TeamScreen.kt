@@ -32,7 +32,6 @@ fun TeamScreen(navController: NavController) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
         }
     }
 }

@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.industrySelection
+package ru.practicum.android.diploma.ui.countryselection
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,11 +17,11 @@ import ru.practicum.android.diploma.ui.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IndustrySelectionScreen(navController: NavController) {
+fun CountrySelectionScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.industry_selection)) },
+                title = { Text(text = stringResource(R.string.сountry_selection)) },
                 expandedHeight = Dimens.topBarHeight
             )
         }
@@ -32,7 +32,6 @@ fun IndustrySelectionScreen(navController: NavController) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
         }
     }
 }

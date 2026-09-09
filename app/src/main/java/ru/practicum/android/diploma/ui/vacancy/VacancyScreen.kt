@@ -15,7 +15,6 @@ import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.ui.theme.Dimens
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VacancyScreen(navController: NavController) {
@@ -33,7 +32,6 @@ fun VacancyScreen(navController: NavController) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
         }
     }
 }

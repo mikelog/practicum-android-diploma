@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.filteringSettings
+package ru.practicum.android.diploma.ui.workplaceselection
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,11 +19,11 @@ import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilteringSettingsScreen(navController: NavController) {
+fun WorkplaceSelectionScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.filtering_settings)) },
+                title = { Text(text = stringResource(R.string.workplace_selection)) },
                 expandedHeight = Dimens.topBarHeight
             )
         }
@@ -36,17 +36,10 @@ fun FilteringSettingsScreen(navController: NavController) {
         ) {
             // Зашлушка:
             Button(
-                onClick = { navController.navigate(ScreenRoute.WorkplaceSelection.route) }
+                onClick = { navController.navigate(ScreenRoute.CountrySelection.route) }
             ) {
-                Text(text = "Выбор места работы")
+                Text(text = "Выбор страны")
             }
-
-            Button(
-                onClick = { navController.navigate(ScreenRoute.IndustrySelection.route) }
-            ) {
-                Text(text = "Выбор отрасли")
-            }
-
         }
     }
 }

@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.ui.workplaceSelection
+package ru.practicum.android.diploma.ui.mainsearch
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,11 +19,11 @@ import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WorkplaceSelectionScreen(navController: NavController) {
+fun MainSearchScreen(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.workplace_selection)) },
+                title = { Text(text = stringResource(R.string.vacancy_search)) },
                 expandedHeight = Dimens.topBarHeight
             )
         }
@@ -36,9 +36,14 @@ fun WorkplaceSelectionScreen(navController: NavController) {
         ) {
             // Зашлушка:
             Button(
-                onClick = { navController.navigate(ScreenRoute.CountrySelection.route) }
+                onClick = { navController.navigate(ScreenRoute.FilteringSettings.route) }
             ) {
-                Text(text = "Выбор страны")
+                Text(text = "Настройки фильтрации")
+            }
+            Button(
+                onClick = { navController.navigate(ScreenRoute.Vacancy.route) }
+            ) {
+                Text(text = "Вакансия")
             }
         }
     }
