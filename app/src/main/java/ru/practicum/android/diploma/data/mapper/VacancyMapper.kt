@@ -22,7 +22,6 @@ import ru.practicum.android.diploma.domain.models.VacancyCard
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 import ru.practicum.android.diploma.domain.models.VacancyResponse
 
-
 fun VacancyResponseDto.toDomain(): VacancyResponse = VacancyResponse(
     found = found,
     pages = pages,

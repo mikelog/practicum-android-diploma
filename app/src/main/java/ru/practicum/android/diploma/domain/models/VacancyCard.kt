@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.domain.models
 
-
 data class VacancyCard(
     val id: String,
     val name: String,
@@ -9,4 +8,3 @@ data class VacancyCard(
     val salary: Salary?,
     val logo: String?
 )
-
