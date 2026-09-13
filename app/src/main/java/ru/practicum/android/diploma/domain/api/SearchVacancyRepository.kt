@@ -9,7 +9,7 @@ interface SearchVacancyRepository {
         areaId: Int?,
         industryId: Int?,
         salary: Int?,
-        onlyWithSalary:Boolean?,
+        onlyWithSalary: Boolean?,
         page: Int?
     ): Resource<VacancyResponse>
 }

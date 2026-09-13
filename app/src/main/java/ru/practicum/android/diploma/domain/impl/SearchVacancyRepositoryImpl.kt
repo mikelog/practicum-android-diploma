@@ -22,7 +22,6 @@ class SearchVacancyRepositoryImpl(
         onlyWithSalary: Boolean?,
         page: Int?,
     ): Resource<VacancyResponse> {
-
         val result: Resource<VacancyResponseDto> =
             NetworkClient.doRequest(connectivityChecker) {
                 vacancyApiService.getVacancies(
