@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.data.dto.SalaryDto
 import ru.practicum.android.diploma.data.dto.VacancyCardDto
 import ru.practicum.android.diploma.data.dto.VacancyCardSalaryDto
 import ru.practicum.android.diploma.data.dto.VacancyDetailDto
+import ru.practicum.android.diploma.data.dto.VacancyRequestDto
 import ru.practicum.android.diploma.data.dto.VacancyResponseDto
 import ru.practicum.android.diploma.domain.models.Address
 import ru.practicum.android.diploma.domain.models.Contacts
@@ -21,6 +22,7 @@ import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.VacancyCard
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 import ru.practicum.android.diploma.domain.models.VacancyResponse
+import ru.practicum.android.diploma.domain.models.VacancySearchParams
 
 fun VacancyResponseDto.toDomain(): VacancyResponse = VacancyResponse(
     found = found,
@@ -102,3 +104,14 @@ fun FilterIndustryDto.toDomain(): FilterIndustry = FilterIndustry(
     id = id,
     name = name
 )
+
+fun VacancySearchParams.toDto(): VacancyRequestDto {
+    return VacancyRequestDto(
+        text = text,
+        area = areaId,
+        industry = industryId,
+        salary = salary,
+        onlyWithSalary = onlyWithSalary,
+        page = page,
+    )
+}
