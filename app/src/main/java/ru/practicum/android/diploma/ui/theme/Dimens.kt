@@ -22,4 +22,8 @@ object Dimens {
     val bottomBarHeight = 57.dp
     val dividerThickness = 1.dp
     val elevationNone = 0.dp
+
+    // Карточка вакансии в списке
+    val vacancyLogoSize = 48.dp
+    val vacancyLogoCornerRadius = 4.dp
 }
