@@ -10,4 +10,5 @@ val koinModules: List<Module> = listOf(
     appModule,
     networkModule,
     databaseModule,
+    mainSearchModule,
 )
