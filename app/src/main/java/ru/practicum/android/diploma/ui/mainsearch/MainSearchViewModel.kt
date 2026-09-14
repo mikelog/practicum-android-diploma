@@ -16,4 +16,8 @@ class MainSearchViewModel(
     fun onQueryChanged(query: String) {
         _state.value = _state.value.copy(query = query)
     }
+
+    fun onClearQuery() {
+        _state.value = _state.value.copy(query = "", content = MainSearchContent.Idle)
+    }
 }
