@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import ru.practicum.android.diploma.domain.api.SearchVacancyInteractor
 
-class MainSearchViewModel : ViewModel() {
+class MainSearchViewModel(
+    private val searchVacancyInteractor: SearchVacancyInteractor
+) : ViewModel() {
 
     private val _state = MutableStateFlow(MainSearchState())
     val state: StateFlow<MainSearchState> = _state.asStateFlow()
