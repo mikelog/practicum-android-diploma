@@ -40,7 +40,7 @@ fun VacancyListItem(
             .fillMaxWidth()
             .clickable { onClick(vacancy) }
             .padding(horizontal = Dimens.spacingL, vertical = Dimens.spacingS),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.Top
     ) {
         AsyncImage(
             model = vacancy.logo,
@@ -59,18 +59,16 @@ fun VacancyListItem(
                 .weight(1f)
                 .padding(start = Dimens.spacingM)
         ) {
+            val nameAndCity = listOfNotNull(vacancy.name, vacancy.city).joinToString(", ")
             Text(
-                text = vacancy.name,
+                text = nameAndCity,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
+                color = MaterialTheme.colorScheme.onSurface
             )
 
-            val companyAndCity = listOfNotNull(vacancy.company, vacancy.city).joinToString(", ")
-            if (companyAndCity.isNotEmpty()) {
+            if (vacancy.company != null) {
                 Text(
-                    text = companyAndCity,
+                    text = vacancy.company,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
