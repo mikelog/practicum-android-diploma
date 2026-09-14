@@ -12,4 +12,6 @@
 
     <string name="main">Главная</string>
 
+    <string name="main_search_debug_state">Состояние: %1$s</string>
+
 </resources>
