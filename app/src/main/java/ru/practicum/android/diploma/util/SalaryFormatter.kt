@@ -21,7 +21,7 @@ object SalaryFormatter {
         "AZN" to "₼",
         "UZS" to "UZS",
         "GEL" to "₾",
-        "KGT" to "KGT"
+        "KGS" to "KGS"
     )
 
     private val amountFormat = DecimalFormat(
