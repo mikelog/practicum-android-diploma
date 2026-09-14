@@ -211,7 +211,11 @@ private fun PlaceholderState(
             if (message != null) {
                 Text(
                     text = message,
-                    modifier = Modifier.padding(top = Dimens.spacingL, start = Dimens.spacingXl, end = Dimens.spacingXl),
+                    modifier = Modifier.padding(
+                        top = Dimens.spacingL,
+                        start = Dimens.spacingXl,
+                        end = Dimens.spacingXl
+                    ),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center
@@ -291,6 +295,8 @@ private fun SearchField(
     }
 }
 
+private const val PREVIEW_QUERY = "Разработчик"
+
 private val previewVacancies = listOf(
     VacancyCard(
         id = "1",
@@ -345,7 +351,7 @@ private fun MainSearchScreenLoadingPreview() {
 private fun MainSearchScreenContentPreview() {
     AppTheme {
         MainSearchScreenContent(
-            query = "Разработчик",
+            query = PREVIEW_QUERY,
             content = MainSearchContent.Content(vacancies = previewVacancies, found = 286),
             onQueryChange = {},
             onClearQuery = {},
@@ -375,7 +381,7 @@ private fun MainSearchScreenEmptyPreview() {
 private fun MainSearchScreenNetworkErrorPreview() {
     AppTheme {
         MainSearchScreenContent(
-            query = "Разработчик",
+            query = PREVIEW_QUERY,
             content = MainSearchContent.NetworkError,
             onQueryChange = {},
             onClearQuery = {},
@@ -390,7 +396,7 @@ private fun MainSearchScreenNetworkErrorPreview() {
 private fun MainSearchScreenServerErrorPreview() {
     AppTheme {
         MainSearchScreenContent(
-            query = "Разработчик",
+            query = PREVIEW_QUERY,
             content = MainSearchContent.ServerError,
             onQueryChange = {},
             onClearQuery = {},
