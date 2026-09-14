@@ -22,4 +22,10 @@ object Dimens {
     val bottomBarHeight = 57.dp
     val dividerThickness = 1.dp
     val elevationNone = 0.dp
+
+    // Карточка вакансии в списке (по макету Figma: List Item / Picture image+Text)
+    val vacancyCardVerticalPadding = 9.dp
+    val vacancyLogoSize = 48.dp
+    val vacancyLogoCornerRadius = 12.dp
+    val vacancyLogoBorderWidth = 1.dp
 }
