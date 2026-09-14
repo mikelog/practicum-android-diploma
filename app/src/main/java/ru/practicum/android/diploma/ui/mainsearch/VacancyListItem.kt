@@ -121,7 +121,7 @@ private fun VacancyListItemPreview() {
                 name = "Android-разработчик (Kotlin)",
                 company = "Яндекс",
                 city = "Москва",
-                salary = Salary(from = 150000, to = 250000, currency = "RUR"),
+                salary = Salary(from = 150_000, to = 250_000, currency = "RUR"),
                 logo = null
             ),
             onClick = {}
