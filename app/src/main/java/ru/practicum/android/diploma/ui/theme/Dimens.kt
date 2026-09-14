@@ -28,4 +28,18 @@ object Dimens {
     val vacancyLogoSize = 48.dp
     val vacancyLogoCornerRadius = 12.dp
     val vacancyLogoBorderWidth = 1.dp
+
+    // Поле поиска (по макету Figma: Search Stack)
+    val searchFieldHeight = 56.dp
+    val searchFieldCornerRadius = 12.dp
+    val searchFieldIconButtonSize = 48.dp
+
+    // Счётчик найденных вакансий (по макету Figma: Chip)
+    val chipCornerRadius = 12.dp
+    val chipHorizontalPadding = 12.dp
+    val chipVerticalPadding = 4.dp
+
+    // Иллюстрации-заглушки состояний экрана (Idle/Empty/ошибки)
+    val placeholderImageWidth = 328.dp
+    val placeholderImageHeight = 223.dp
 }
