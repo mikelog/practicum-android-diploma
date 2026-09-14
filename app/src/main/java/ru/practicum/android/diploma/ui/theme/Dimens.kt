@@ -39,6 +39,10 @@ object Dimens {
     val chipHorizontalPadding = 12.dp
     val chipVerticalPadding = 4.dp
 
+    // Отступ сверху над Chip: по макету общий отступ от поля поиска = 11.dp,
+    // само поле поиска уже добавляет снизу spacingS (8.dp), поэтому здесь только разница
+    val chipTopSpacing = 3.dp
+
     // Иллюстрации-заглушки состояний экрана (Idle/Empty/ошибки)
     val placeholderImageWidth = 328.dp
     val placeholderImageHeight = 223.dp

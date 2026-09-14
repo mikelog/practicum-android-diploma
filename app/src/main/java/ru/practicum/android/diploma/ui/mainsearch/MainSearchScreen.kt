@@ -1,20 +1,14 @@
 package ru.practicum.android.diploma.ui.mainsearch
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,17 +23,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.VacancyCard
+import ru.practicum.android.diploma.ui.components.Placeholder
+import ru.practicum.android.diploma.ui.components.SearchField
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.Dimens
 import ru.practicum.android.diploma.util.navigation.ScreenRoute
@@ -104,7 +98,7 @@ private fun MainSearchScreenContent(
 
             Box(modifier = Modifier.fillMaxSize()) {
                 when (content) {
-                    is MainSearchContent.Idle -> PlaceholderState(
+                    is MainSearchContent.Idle -> Placeholder(
                         image = R.drawable.placeholder_man_with_binoculars,
                         message = null
                     )
@@ -125,21 +119,21 @@ private fun MainSearchScreenContent(
                             text = stringResource(R.string.no_vacancies_found),
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
-                                .padding(top = Dimens.spacingS)
+                                .padding(top = Dimens.chipTopSpacing)
                         )
-                        PlaceholderState(
+                        Placeholder(
                             image = R.drawable.placeholder_cat_with_a_plate,
                             message = stringResource(R.string.empty_result_message),
                             modifier = Modifier.weight(1f)
                         )
                     }
 
-                    is MainSearchContent.NetworkError -> PlaceholderState(
+                    is MainSearchContent.NetworkError -> Placeholder(
                         image = R.drawable.placeholder_scull,
                         message = stringResource(R.string.network_error_message)
                     )
 
-                    is MainSearchContent.ServerError -> PlaceholderState(
+                    is MainSearchContent.ServerError -> Placeholder(
                         image = R.drawable.placeholder_crying,
                         message = stringResource(R.string.server_error_message)
                     )
@@ -160,7 +154,7 @@ private fun ResultsState(
             text = pluralStringResource(R.plurals.found_vacancies, found, found),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = Dimens.spacingS, bottom = Dimens.spacingS)
+                .padding(top = Dimens.chipTopSpacing, bottom = Dimens.spacingS)
         )
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(vacancies, key = { it.id }) { vacancy ->
@@ -186,112 +180,6 @@ private fun FoundCountChip(
             color = MaterialTheme.colorScheme.onPrimary,
             style = MaterialTheme.typography.bodyLarge
         )
-    }
-}
-
-@Composable
-private fun PlaceholderState(
-    @DrawableRes image: Int,
-    message: String?,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(image),
-                contentDescription = null,
-                modifier = Modifier.size(
-                    width = Dimens.placeholderImageWidth,
-                    height = Dimens.placeholderImageHeight
-                )
-            )
-            if (message != null) {
-                Text(
-                    text = message,
-                    modifier = Modifier.padding(
-                        top = Dimens.spacingL,
-                        start = Dimens.spacingXl,
-                        end = Dimens.spacingXl
-                    ),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun SearchField(
-    query: String,
-    onQueryChange: (String) -> Unit,
-    onClearQuery: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val shape = RoundedCornerShape(Dimens.searchFieldCornerRadius)
-    Box(
-        modifier = modifier
-            .height(Dimens.searchFieldHeight)
-            .clip(shape)
-            .background(MaterialTheme.colorScheme.surfaceVariant, shape)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = Dimens.spacingL),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                if (query.isEmpty()) {
-                    Text(
-                        text = stringResource(R.string.search_hint),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                BasicTextField(
-                    value = query,
-                    onValueChange = onQueryChange,
-                    singleLine = true,
-                    textStyle = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    ),
-                    cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-
-            if (query.isEmpty()) {
-                Box(
-                    modifier = Modifier.size(Dimens.searchFieldIconButtonSize),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_search_24dp),
-                        contentDescription = stringResource(R.string.cd_search_icon),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            } else {
-                IconButton(
-                    onClick = onClearQuery,
-                    modifier = Modifier.size(Dimens.searchFieldIconButtonSize)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_close_24dp),
-                        contentDescription = stringResource(R.string.cd_clear_query),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
     }
 }
 
