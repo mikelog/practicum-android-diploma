@@ -1,13 +1,15 @@
-package ru.practicum.android.diploma.domain.impl
+package ru.practicum.android.diploma.data.impl
 
 import ru.practicum.android.diploma.data.dto.VacancyResponseDto
 import ru.practicum.android.diploma.data.mapper.toDomain
+import ru.practicum.android.diploma.data.mapper.toDto
 import ru.practicum.android.diploma.data.network.ConnectivityChecker
 import ru.practicum.android.diploma.data.network.NetworkClient
 import ru.practicum.android.diploma.data.network.Resource
 import ru.practicum.android.diploma.data.network.VacancyApiService
 import ru.practicum.android.diploma.domain.api.SearchVacancyRepository
 import ru.practicum.android.diploma.domain.models.VacancyResponse
+import ru.practicum.android.diploma.domain.models.VacancySearchParams
 
 class SearchVacancyRepositoryImpl(
     private val vacancyApiService: VacancyApiService,
@@ -15,22 +17,19 @@ class SearchVacancyRepositoryImpl(
 ) : SearchVacancyRepository {
 
     override suspend fun searchVacancy(
-        text: String?,
-        areaId: Int?,
-        industryId: Int?,
-        salary: Int?,
-        onlyWithSalary: Boolean?,
-        page: Int?,
+        params: VacancySearchParams,
     ): Resource<VacancyResponse> {
+        val request = params.toDto()
+
         val result: Resource<VacancyResponseDto> =
             NetworkClient.doRequest(connectivityChecker) {
                 vacancyApiService.getVacancies(
-                    text = text,
-                    area = areaId,
-                    industry = industryId,
-                    salary = salary,
-                    onlyWithSalary = onlyWithSalary,
-                    page = page,
+                    area = request.area,
+                    industry = request.industry,
+                    text = request.text,
+                    salary = request.salary,
+                    page = request.page,
+                    onlyWithSalary = request.onlyWithSalary,
                 )
             }
 
