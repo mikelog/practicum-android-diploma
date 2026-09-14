@@ -1,6 +1,9 @@
 package ru.practicum.android.diploma.ui.mainsearch
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,20 +42,29 @@ fun VacancyListItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick(vacancy) }
-            .padding(horizontal = Dimens.spacingL, vertical = Dimens.spacingS),
+            .padding(horizontal = Dimens.spacingL, vertical = Dimens.vacancyCardVerticalPadding),
         verticalAlignment = Alignment.Top
     ) {
-        AsyncImage(
-            model = vacancy.logo,
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            placeholder = painterResource(R.drawable.placeholder_vacancy_32dp),
-            error = painterResource(R.drawable.placeholder_vacancy_32dp),
-            fallback = painterResource(R.drawable.placeholder_vacancy_32dp),
+        val logoShape = RoundedCornerShape(Dimens.vacancyLogoCornerRadius)
+        Box(
             modifier = Modifier
                 .size(Dimens.vacancyLogoSize)
-                .clip(RoundedCornerShape(Dimens.vacancyLogoCornerRadius))
-        )
+                .clip(logoShape)
+                .background(MaterialTheme.colorScheme.surface)
+                .border(Dimens.vacancyLogoBorderWidth, MaterialTheme.colorScheme.outlineVariant, logoShape)
+        ) {
+            AsyncImage(
+                model = vacancy.logo,
+                contentDescription = null,
+                contentScale = ContentScale.Fit,
+                placeholder = painterResource(R.drawable.placeholder_vacancy_32dp),
+                error = painterResource(R.drawable.placeholder_vacancy_32dp),
+                fallback = painterResource(R.drawable.placeholder_vacancy_32dp),
+                modifier = Modifier
+                    .padding(Dimens.spacingS)
+                    .size(Dimens.spacingXxl)
+            )
+        }
 
         Column(
             modifier = Modifier
@@ -62,15 +74,15 @@ fun VacancyListItem(
             val nameAndCity = listOfNotNull(vacancy.name, vacancy.city).joinToString(", ")
             Text(
                 text = nameAndCity,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
             if (vacancy.company != null) {
                 Text(
                     text = vacancy.company,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.outline,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -78,8 +90,8 @@ fun VacancyListItem(
 
             Text(
                 text = salaryText(vacancy.salary),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.outline,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
