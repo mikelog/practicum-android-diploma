@@ -58,7 +58,7 @@ fun MainSearchScreen(
         onClearQuery = viewModel::onQueryCleared,
         onListScrolledToEnd = viewModel::onListScrolledToEnd,
         onFilterClick = { navController.navigate(ScreenRoute.FilteringSettings.route) },
-        onVacancyClick = { navController.navigate(ScreenRoute.Vacancy.route) }
+        onVacancyClick = { navController.navigate(ScreenRoute.Vacancy.createRoute(it.id)) }
     )
 }
 

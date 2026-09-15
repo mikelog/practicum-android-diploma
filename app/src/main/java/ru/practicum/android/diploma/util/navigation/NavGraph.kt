@@ -3,8 +3,10 @@ package ru.practicum.android.diploma.util.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import ru.practicum.android.diploma.ui.countryselection.CountrySelectionScreen
 import ru.practicum.android.diploma.ui.favorites.FavoritesScreen
 import ru.practicum.android.diploma.ui.filteringsettings.FilteringSettingsScreen
@@ -53,8 +55,12 @@ fun NavGraph(
             IndustrySelectionScreen(navController)
         }
 
-        composable(route = ScreenRoute.Vacancy.route) {
-            VacancyScreen(navController)
+        composable(
+            route = ScreenRoute.Vacancy.route,
+            arguments = listOf(navArgument("vacancyId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val vacancyId = backStackEntry.arguments?.getString("vacancyId").orEmpty()
+            VacancyScreen(navController, vacancyId)
         }
 
     }
