@@ -46,4 +46,8 @@ object Dimens {
     // Иллюстрации-заглушки состояний экрана (Idle/Empty/ошибки)
     val placeholderImageWidth = 328.dp
     val placeholderImageHeight = 223.dp
+
+    // Экран «Команда»
+    val teamHeaderHeight = 76.dp
+    val teamAvatarSize = 48.dp
 }

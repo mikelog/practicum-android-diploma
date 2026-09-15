@@ -4,6 +4,16 @@
     <string name="vacancy_search">Поиск вакансий</string>
     <string name="favorites">Избранное</string>
     <string name="team">Команда</string>
+    <string name="team_header">Над приложением работали</string>
+    <string name="team_member_name_logins">Логинов Михаил Игоревич</string>
+    <string name="team_member_role_logins">Team lead</string>
+    <string name="team_member_initials_logins">ЛМ</string>
+    <string name="team_member_name_bitkin">Биткин Сергей Анатольевич</string>
+    <string name="team_member_role_bitkin">Android developer</string>
+    <string name="team_member_initials_bitkin">БС</string>
+    <string name="team_member_name_matuskin">Матушкин Алексей Иванович</string>
+    <string name="team_member_role_matuskin">Android Developer</string>
+    <string name="team_member_initials_matuskin">МА</string>
     <string name="filtering_settings">Настройки фильтрации</string>
     <string name="workplace_selection">Выбор места работы</string>
     <string name="сountry_selection">Выбор страны</string>
