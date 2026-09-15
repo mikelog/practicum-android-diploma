@@ -14,6 +14,12 @@ private val AppFontFamily = FontFamily(
 )
 
 val AppTypography = Typography(
+    headlineLarge = TextStyle(
+        fontFamily = AppFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 32.sp,
+        lineHeight = 38.sp
+    ),
     titleLarge = TextStyle(
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Medium,
