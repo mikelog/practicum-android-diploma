@@ -39,7 +39,7 @@ val AppTypography = Typography(
         fontSize = 16.sp,
         lineHeight = 19.sp
     ),
-    bodyMedium = TextStyle(   // не нашел такого шрифта в макетах...
+    bodyMedium = TextStyle( // не нашел такого шрифта в макетах...
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
