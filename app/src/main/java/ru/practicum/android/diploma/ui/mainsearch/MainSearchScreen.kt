@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,8 +19,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,8 +53,10 @@ fun MainSearchScreen(
     MainSearchScreenContent(
         query = state.query,
         content = state.content,
+        isNextPageLoading = state.isNextPageLoading,
         onQueryChange = viewModel::onQueryChanged,
         onClearQuery = viewModel::onQueryCleared,
+        onListScrolledToEnd = viewModel::onListScrolledToEnd,
         onFilterClick = { navController.navigate(ScreenRoute.FilteringSettings.route) },
         onVacancyClick = { navController.navigate(ScreenRoute.Vacancy.route) }
     )
@@ -61,8 +67,10 @@ fun MainSearchScreen(
 private fun MainSearchScreenContent(
     query: String,
     content: MainSearchContent,
+    isNextPageLoading: Boolean,
     onQueryChange: (String) -> Unit,
     onClearQuery: () -> Unit,
+    onListScrolledToEnd: () -> Unit,
     onFilterClick: () -> Unit,
     onVacancyClick: (VacancyCard) -> Unit
 ) {
@@ -111,6 +119,8 @@ private fun MainSearchScreenContent(
                     is MainSearchContent.Content -> ResultsState(
                         vacancies = content.vacancies,
                         found = content.found,
+                        isNextPageLoading = isNextPageLoading,
+                        onListScrolledToEnd = onListScrolledToEnd,
                         onVacancyClick = onVacancyClick
                     )
 
@@ -147,8 +157,24 @@ private fun MainSearchScreenContent(
 private fun ResultsState(
     vacancies: List<VacancyCard>,
     found: Int,
+    isNextPageLoading: Boolean,
+    onListScrolledToEnd: () -> Unit,
     onVacancyClick: (VacancyCard) -> Unit
 ) {
+    val listState = rememberLazyListState()
+
+    val shouldLoadMore by remember {
+        derivedStateOf {
+            val layoutInfo = listState.layoutInfo
+            val lastVisibleIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+            lastVisibleIndex >= layoutInfo.totalItemsCount - 1
+        }
+    }
+
+    LaunchedEffect(shouldLoadMore) {
+        if (shouldLoadMore) onListScrolledToEnd()
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         FoundCountChip(
             text = pluralStringResource(R.plurals.found_vacancies, found, found),
@@ -156,9 +182,21 @@ private fun ResultsState(
                 .align(Alignment.CenterHorizontally)
                 .padding(top = Dimens.chipTopSpacing, bottom = Dimens.spacingS)
         )
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
             items(vacancies, key = { it.id }) { vacancy ->
                 VacancyListItem(vacancy = vacancy, onClick = onVacancyClick)
+            }
+            if (isNextPageLoading) {
+                item(key = "next_page_loading") {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = Dimens.spacingL),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    }
+                }
             }
         }
     }
@@ -211,6 +249,8 @@ private fun MainSearchScreenIdlePreview() {
         MainSearchScreenContent(
             query = "",
             content = MainSearchContent.Idle,
+            isNextPageLoading = false,
+            onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
             onFilterClick = {},
@@ -226,6 +266,8 @@ private fun MainSearchScreenLoadingPreview() {
         MainSearchScreenContent(
             query = "Android",
             content = MainSearchContent.Loading,
+            isNextPageLoading = false,
+            onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
             onFilterClick = {},
@@ -241,6 +283,8 @@ private fun MainSearchScreenContentPreview() {
         MainSearchScreenContent(
             query = PREVIEW_QUERY,
             content = MainSearchContent.Content(vacancies = previewVacancies, found = 286),
+            isNextPageLoading = false,
+            onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
             onFilterClick = {},
@@ -256,6 +300,8 @@ private fun MainSearchScreenEmptyPreview() {
         MainSearchScreenContent(
             query = "Абвгд",
             content = MainSearchContent.Empty,
+            isNextPageLoading = false,
+            onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
             onFilterClick = {},
@@ -271,6 +317,8 @@ private fun MainSearchScreenNetworkErrorPreview() {
         MainSearchScreenContent(
             query = PREVIEW_QUERY,
             content = MainSearchContent.NetworkError,
+            isNextPageLoading = false,
+            onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
             onFilterClick = {},
@@ -286,6 +334,8 @@ private fun MainSearchScreenServerErrorPreview() {
         MainSearchScreenContent(
             query = PREVIEW_QUERY,
             content = MainSearchContent.ServerError,
+            isNextPageLoading = false,
+            onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
             onFilterClick = {},
