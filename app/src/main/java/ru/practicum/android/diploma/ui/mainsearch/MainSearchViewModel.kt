@@ -2,11 +2,15 @@ package ru.practicum.android.diploma.ui.mainsearch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.network.Resource
 import ru.practicum.android.diploma.domain.api.SearchVacancyInteractor
 import ru.practicum.android.diploma.domain.models.VacancySearchParams
@@ -23,6 +27,9 @@ class MainSearchViewModel(
 
     private val _state = MutableStateFlow(MainSearchState())
     val state: StateFlow<MainSearchState> = _state.asStateFlow()
+
+    private val _errorToast = MutableSharedFlow<Int>()
+    val errorToast: SharedFlow<Int> = _errorToast.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -82,10 +89,8 @@ class MainSearchViewModel(
                     _state.value = _state.value.copy(isNextPageLoading = false)
                     return
                 }
-                _state.value = _state.value.copy(
-                    isNextPageLoading = false,
-                    content = result.toMainSearchContent()
-                )
+                _state.value = _state.value.copy(isNextPageLoading = false)
+                _errorToast.emit(result.toErrorMessageRes())
             }
 
             Resource.Loading -> {
@@ -138,5 +143,12 @@ class MainSearchViewModel(
             MainSearchContent.NetworkError
         } else {
             MainSearchContent.ServerError
+        }
+
+    private fun Resource.Error.toErrorMessageRes(): Int =
+        if (code == -1 || code == null) {
+            R.string.network_error_message
+        } else {
+            R.string.server_error_message
         }
 }
