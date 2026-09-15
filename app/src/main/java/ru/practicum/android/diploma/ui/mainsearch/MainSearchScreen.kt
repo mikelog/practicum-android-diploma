@@ -50,7 +50,7 @@ fun MainSearchScreen(
         query = state.query,
         content = state.content,
         onQueryChange = viewModel::onQueryChanged,
-        onClearQuery = viewModel::onClearQuery,
+        onClearQuery = viewModel::onQueryCleared,
         onFilterClick = { navController.navigate(ScreenRoute.FilteringSettings.route) },
         onVacancyClick = { navController.navigate(ScreenRoute.Vacancy.route) }
     )
