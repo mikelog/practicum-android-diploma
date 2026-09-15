@@ -45,40 +45,51 @@ class MainSearchViewModel(
     fun onListScrolledToEnd() {
         if (_state.value.isNextPageLoading) return
         val content = _state.value.content
-        if (content !is MainSearchContent.Content) return
-        if (currentPage + 1 >= totalPages) return
+        if (content !is MainSearchContent.Content || currentPage + 1 >= totalPages) return
 
         viewModelScope.launch {
             _state.value = _state.value.copy(isNextPageLoading = true)
-            val searchTarget = query.value
-            val nextPage = currentPage + 1
-            when (val result = searchVacancyInteractor.searchVacancy(
-                VacancySearchParams(text = searchTarget, page = nextPage)
-            )) {
-                is Resource.Success -> {
-                    currentPage = result.data.page
-                    if (searchTarget != query.value) return@launch
-                    val deduped = (content.vacancies + result.data.items).distinctBy { it.id }
-                    _state.value = _state.value.copy(
-                        isNextPageLoading = false,
-                        content = MainSearchContent.Content(
-                            vacancies = deduped,
-                            found = content.found
-                        )
-                    )
-                }
+            loadNextPage(query.value, currentPage + 1, content)
+        }
+    }
 
-                is Resource.Error -> {
-                    if (searchTarget != query.value) return@launch
-                    _state.value = _state.value.copy(
-                        isNextPageLoading = false,
-                        content = result.toMainSearchContent()
+    private suspend fun loadNextPage(
+        searchText: String,
+        nextPage: Int,
+        currentContent: MainSearchContent.Content,
+    ) {
+        when (val result = searchVacancyInteractor.searchVacancy(
+            VacancySearchParams(text = searchText, page = nextPage)
+        )) {
+            is Resource.Success -> {
+                if (searchText != query.value) {
+                    _state.value = _state.value.copy(isNextPageLoading = false)
+                    return
+                }
+                currentPage = result.data.page
+                val deduped = (currentContent.vacancies + result.data.items).distinctBy { it.id }
+                _state.value = _state.value.copy(
+                    isNextPageLoading = false,
+                    content = MainSearchContent.Content(
+                        vacancies = deduped,
+                        found = currentContent.found
                     )
-                }
+                )
+            }
 
-                Resource.Loading -> {
-                    // no-op
+            is Resource.Error -> {
+                if (searchText != query.value) {
+                    _state.value = _state.value.copy(isNextPageLoading = false)
+                    return
                 }
+                _state.value = _state.value.copy(
+                    isNextPageLoading = false,
+                    content = result.toMainSearchContent()
+                )
+            }
+
+            Resource.Loading -> {
+                // no-op
             }
         }
     }
@@ -123,6 +134,9 @@ class MainSearchViewModel(
     }
 
     private fun Resource.Error.toMainSearchContent(): MainSearchContent =
-        if (code == -1 || code == null) MainSearchContent.NetworkError
-        else MainSearchContent.ServerError
+        if (code == -1 || code == null) {
+            MainSearchContent.NetworkError
+        } else {
+            MainSearchContent.ServerError
+        }
 }
