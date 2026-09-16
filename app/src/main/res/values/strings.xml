@@ -44,6 +44,8 @@
     </plurals>
 
     <string name="experience">Требуемый опыт</string>
+    <string name="key_skills">Ключевые навыки</string>
+    <string name="contacts">Контакты</string>
 
 
 </resources>
