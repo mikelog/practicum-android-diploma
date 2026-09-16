@@ -9,9 +9,7 @@ data class FavoriteVacancyEntity(
     val id: String,
     val name: String,
     val salary: String?,
-    val employerName: String?,
-    val employerLogo: String?,
-    val city: String?,
+    val employerJson: String,
     val description: String,
     val addressJson: String?,
     val experience: String?,
@@ -20,4 +18,6 @@ data class FavoriteVacancyEntity(
     val contactsJson: String?,
     val skills: String?,
     val url: String,
+    val areaJson: String,
+    val industryJson: String,
 )
