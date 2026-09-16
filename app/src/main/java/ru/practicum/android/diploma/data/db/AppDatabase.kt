@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.data.db.entity.FavoriteVacancyEntity
 
 @Database(
     entities = [FavoriteVacancyEntity::class],
-    version = 1,
+    version = 2,
 )
 abstract class AppDatabase : RoomDatabase() {
 
