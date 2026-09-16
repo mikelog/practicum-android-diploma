@@ -17,7 +17,6 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         private const val DATABASE_NAME = "vacancy_db.db"
-
         fun create(context: Context): AppDatabase =
             Room.databaseBuilder(
                 context,
