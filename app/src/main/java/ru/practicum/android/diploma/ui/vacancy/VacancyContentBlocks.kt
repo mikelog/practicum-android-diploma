@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.vacancy
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Contacts
@@ -48,6 +50,8 @@ fun ContactsSection(
         return
     }
 
+    val context = LocalContext.current
+
     Column(modifier = modifier.fillMaxWidth().padding(bottom = Dimens.spacingS)) {
         Text(
             text = stringResource(R.string.contacts),
@@ -65,7 +69,8 @@ fun ContactsSection(
         contacts.phones.forEach { phone ->
             PhoneRow(
                 phone = phone,
-                modifier = Modifier.padding(top = Dimens.spacingXs)
+                modifier = Modifier.padding(top = Dimens.spacingXs),
+                onClick = { callPhone(context, phone.formatted) }
             )
         }
 
@@ -73,7 +78,9 @@ fun ContactsSection(
             Text(
                 text = contacts.email,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = Dimens.spacingXs)
+                modifier = Modifier
+                    .padding(top = Dimens.spacingXs)
+                    .clickable { openEmail(context, contacts.email) }
             )
         }
     }
@@ -82,9 +89,10 @@ fun ContactsSection(
 @Composable
 private fun PhoneRow(
     phone: Phone,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier.fillMaxWidth()) {
+    Row(modifier = modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Text(
             text = phone.formatted,
             style = MaterialTheme.typography.bodyLarge
