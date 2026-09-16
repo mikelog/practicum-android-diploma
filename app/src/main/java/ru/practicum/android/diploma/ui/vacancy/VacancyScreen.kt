@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.vacancy
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -36,11 +37,11 @@ import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.ui.text.toAnnotatedDescription
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 import ru.practicum.android.diploma.ui.common.formatSalary
 import ru.practicum.android.diploma.ui.components.CompanyLogo
 import ru.practicum.android.diploma.ui.components.Placeholder
+import ru.practicum.android.diploma.ui.text.toAnnotatedDescription
 import ru.practicum.android.diploma.ui.theme.Dimens
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,12 +56,27 @@ fun VacancyScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
+    fun leaveScreen() {
+        viewModel.saveFavoriteAndExit {
+            navController.navigateUp()
+        }
+    }
+
+    BackHandler(
+        onBack = ::leaveScreen
+    )
+
     VacancyScreenContent(
-        state = state, //     VacancyContent.Content(vacancy = previewVacancy),
-        onBackClick = navController::navigateUp,
-        onFavoriteClick = { }, // добавить
+        state = state,
+        onBackClick = ::leaveScreen,
+        onFavoriteClick = viewModel::toggleFavorite,
         onShareClick = {
-            (state as? VacancyContent.Content)?.let { shareVacancy(context, it.vacancy.url) }
+            (state as? VacancyContent.Content)?.let { content ->
+                shareVacancy(
+                    context = context,
+                    url = content.vacancy.url,
+                )
+            }
         },
     )
 }
@@ -73,6 +89,7 @@ private fun VacancyScreenContent(
     onFavoriteClick: () -> Unit,
     onShareClick: () -> Unit,
 ) {
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -80,7 +97,7 @@ private fun VacancyScreenContent(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             painter = painterResource(R.drawable.ic_arrow_back_24dp),
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                 },
@@ -90,22 +107,35 @@ private fun VacancyScreenContent(
                     )
                 },
                 actions = {
-                    IconButton(onClick = onShareClick) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_sharing_24dp),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                    IconButton(onClick = onFavoriteClick) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_favorites_off_24dp),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
-                        )
+                    if (state is VacancyContent.Content) {
+                        IconButton(onClick = onShareClick) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_sharing_24dp),
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground,
+                            )
+                        }
+
+                        IconButton(onClick = onFavoriteClick) {
+                            Icon(
+                                painter = painterResource(
+                                    if (state.isFavorite) {
+                                        R.drawable.ic_favorites_on_24dp
+                                    } else {
+                                        R.drawable.ic_favorites_off_24dp
+                                    }
+                                ),
+                                contentDescription = null,
+                                tint = if (state.isFavorite) {
+                                    MaterialTheme.colorScheme.error
+                                } else {
+                                    MaterialTheme.colorScheme.onBackground
+                                },
+                            )
+                        }
                     }
                 },
-                expandedHeight = Dimens.topBarHeight
+                expandedHeight = Dimens.topBarHeight,
             )
         }
     ) { innerPadding ->
@@ -126,11 +156,16 @@ private fun VacancyScreenContent(
                 }
 
                 is VacancyContent.Error -> {
-                    // Обработку ошибки добавим позже.
-                    // Пока основная область экрана останется пустой.
                     Placeholder(
                         image = R.drawable.placeholder_cat_in_the_shape,
                         message = stringResource(R.string.server_error_message)
+                    )
+                }
+
+                VacancyContent.NotFound -> {
+                    Placeholder(
+                        image = R.drawable.placeholder_dancing_phone,
+                        message = stringResource(R.string.vacancy_not_found_or_has_been_removed),
                     )
                 }
             }
@@ -160,13 +195,13 @@ private fun VacancyDetails(
             .padding(horizontal = Dimens.spacingL)
     ) {
         Text(
-            text = vacancy.name, // тут будет VacancyDetail.name
+            text = vacancy.name,
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier.padding(top = Dimens.spacingXl)
         )
 
         Text(
-            text = formatSalary(vacancy.salary), // тут будет VacancyDetail.salary
+            text = formatSalary(vacancy.salary),
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(top = Dimens.spacingXs)
         )
@@ -209,13 +244,15 @@ private fun VacancyDetails(
                         .padding(start = Dimens.spacingS)
                 ) {
                     Text(
-                        text = vacancy.employer.name, // тут будет VacancyDetail.employer
+                        text = vacancy.employer.name,
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
-                        // Под названием компании должен отображаться её адрес. Если адреса нет, то должно отображаться название региона.
-                        text = vacancy.area.name, // тут будет VacancyDetail.area
+                        text = vacancy.address
+                            ?.raw
+                            ?.takeIf { it.isNotBlank() }
+                            ?: vacancy.area.name,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -235,13 +272,13 @@ private fun VacancyDetails(
             )
 
             Text(
-                text = vacancy.experience ?: "", // тут будет VacancyDetail.experience
+                text = vacancy.experience ?: "",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(top = Dimens.spacingXs)
             )
 
             Text(
-                text = vacancy.schedule ?: "", // тут будет VacancyDetail.schedule
+                text = vacancy.schedule ?: "",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(top = Dimens.spacingXs)
             )
@@ -259,7 +296,6 @@ private fun VacancyDetails(
             )
         }
     }
-
 }
 
 @Composable
