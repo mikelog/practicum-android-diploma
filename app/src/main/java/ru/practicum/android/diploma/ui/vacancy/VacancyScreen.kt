@@ -30,20 +30,18 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.domain.models.Salary
+import ru.practicum.android.diploma.ui.text.toAnnotatedDescription
 import ru.practicum.android.diploma.domain.models.VacancyDetail
+import ru.practicum.android.diploma.ui.common.formatSalary
 import ru.practicum.android.diploma.ui.components.CompanyLogo
 import ru.practicum.android.diploma.ui.components.Placeholder
 import ru.practicum.android.diploma.ui.theme.Dimens
-import ru.practicum.android.diploma.util.SalaryFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -168,7 +166,7 @@ private fun VacancyDetails(
         )
 
         Text(
-            text = salaryText(vacancy.salary), // тут будет VacancyDetail.salary
+            text = formatSalary(vacancy.salary), // тут будет VacancyDetail.salary
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(top = Dimens.spacingXs)
         )
@@ -265,28 +263,6 @@ private fun VacancyDetails(
 }
 
 @Composable
-private fun salaryText(salary: Salary?): String {
-    val from = salary?.from
-    val to = salary?.to
-    return when {
-        from == null && to == null -> stringResource(R.string.salary_not_specified)
-        from != null && to != null -> stringResource(
-            R.string.salary_range,
-            SalaryFormatter.formatValue(from, salary.currency),
-            SalaryFormatter.formatValue(to, salary.currency)
-        )
-        from != null -> stringResource(
-            R.string.salary_from,
-            SalaryFormatter.formatValue(from, salary.currency)
-        )
-        else -> stringResource(
-            R.string.salary_to,
-            SalaryFormatter.formatValue(requireNotNull(to), salary.currency)
-        )
-    }
-}
-
-@Composable
 private fun VacancyDescription(
     description: String?,
 ) {
@@ -295,7 +271,7 @@ private fun VacancyDescription(
     }
 
     val formattedDescription = remember(description) {
-        AnnotatedString.fromHtml(description)
+        description.toAnnotatedDescription()
     }
 
     Text(
