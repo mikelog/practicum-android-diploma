@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.di
 
 import com.google.gson.Gson
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import ru.practicum.android.diploma.data.db.AppDatabase
 import ru.practicum.android.diploma.data.db.converter.FavoriteVacancyConverter
@@ -8,6 +9,7 @@ import ru.practicum.android.diploma.data.impl.FavoriteVacancyRepositoryImpl
 import ru.practicum.android.diploma.domain.api.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.domain.api.FavoriteVacancyRepository
 import ru.practicum.android.diploma.domain.impl.FavoriteVacancyInteractorImpl
+import ru.practicum.android.diploma.ui.favorites.FavoritesViewModel
 
 val favoritesModule = module {
 
@@ -30,5 +32,9 @@ val favoritesModule = module {
         )
     }
 
-    // viewModel {...} допишет Presentation (A)
+    viewModel {
+        FavoritesViewModel(
+            favoriteVacancyInteractor = get(),
+        )
+    }
 }
