@@ -34,6 +34,7 @@
     <string name="empty_result_message">Не удалось получить список вакансий</string>
     <string name="network_error_message">Нет интернета</string>
     <string name="server_error_message">Ошибка сервера</string>
+    <string name="favorites_empty_message">Избранных вакансий нет</string>
     <string name="vacancy_not_found_or_has_been_removed">Вакансия не найдена или удалена</string>
 
     <plurals name="found_vacancies">
