@@ -77,7 +77,7 @@ private fun FavoritesScreenContent(
             }
 
             is FavoritesContent.Empty -> Placeholder(
-                image = R.drawable.placeholder_cat_with_a_plate,
+                image = R.drawable.placeholder_phone_with_magnifying_glass,
                 message = stringResource(R.string.favorites_empty_message),
                 modifier = Modifier
                     .padding(innerPadding)
@@ -85,8 +85,8 @@ private fun FavoritesScreenContent(
             )
 
             is FavoritesContent.Error -> Placeholder(
-                image = R.drawable.placeholder_crying,
-                message = stringResource(R.string.server_error_message),
+                image = R.drawable.placeholder_cat_with_a_plate,
+                message = stringResource(R.string.empty_result_message),
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
