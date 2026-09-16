@@ -50,4 +50,7 @@ object Dimens {
     // Экран «Команда»
     val teamHeaderHeight = 76.dp
     val teamAvatarSize = 48.dp
+
+    // экран деталей
+    val cardHeight = 80.dp
 }
