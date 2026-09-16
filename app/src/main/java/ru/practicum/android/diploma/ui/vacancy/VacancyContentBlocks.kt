@@ -26,14 +26,14 @@ fun SkillsSection(
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(R.string.key_skills),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleLarge
         )
 
-        skills.forEach { skill ->
+        skills.forEachIndexed { index, skill ->
             Text(
                 text = skill,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = Dimens.spacingXs)
+                modifier = Modifier.padding(top = if (index == 0) Dimens.spacingL else Dimens.spacingXs)
             )
         }
     }
@@ -48,7 +48,7 @@ fun ContactsSection(
         return
     }
 
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth().padding(bottom = Dimens.spacingS)) {
         Text(
             text = stringResource(R.string.contacts),
             style = MaterialTheme.typography.titleMedium
