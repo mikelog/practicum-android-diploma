@@ -34,6 +34,7 @@
     <string name="empty_result_message">Не удалось получить список вакансий</string>
     <string name="network_error_message">Нет интернета</string>
     <string name="server_error_message">Ошибка сервера</string>
+    <string name="vacancy_not_found_or_has_been_removed">Вакансия не найдена или удалена</string>
 
     <plurals name="found_vacancies">
         <item quantity="one">Найдено %d вакансия</item>
@@ -41,5 +42,8 @@
         <item quantity="many">Найдено %d вакансий</item>
         <item quantity="other">Найдено %d вакансий</item>
     </plurals>
+
+    <string name="experience">Требуемый опыт</string>
+
 
 </resources>
