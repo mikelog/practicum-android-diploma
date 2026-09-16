@@ -16,15 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.AsyncImage
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.VacancyCard
+import ru.practicum.android.diploma.ui.components.CompanyLogo
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.Dimens
 import ru.practicum.android.diploma.util.SalaryFormatter
@@ -53,13 +51,9 @@ fun VacancyListItem(
                 .background(MaterialTheme.colorScheme.surface)
                 .border(Dimens.vacancyLogoBorderWidth, MaterialTheme.colorScheme.outlineVariant, logoShape)
         ) {
-            AsyncImage(
+            CompanyLogo(
                 model = vacancy.logo,
                 contentDescription = null,
-                contentScale = ContentScale.Fit,
-                placeholder = painterResource(R.drawable.placeholder_vacancy_32dp),
-                error = painterResource(R.drawable.placeholder_vacancy_32dp),
-                fallback = painterResource(R.drawable.placeholder_vacancy_32dp),
                 modifier = Modifier
                     .padding(Dimens.spacingS)
                     .size(Dimens.spacingXxl)
