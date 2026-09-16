@@ -45,12 +45,11 @@ import ru.practicum.android.diploma.ui.components.Placeholder
 import ru.practicum.android.diploma.ui.theme.Dimens
 import ru.practicum.android.diploma.util.SalaryFormatter
 
-var vacancyId = "0000258d-fb45-3152-bfeb-250a4c547384"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VacancyScreen(
     navController: NavController,
-    // vacancyId: String,
+    vacancyId: String,
     viewModel: VacancyViewModel = koinViewModel(
         parameters = { parametersOf(vacancyId) }
     ),
