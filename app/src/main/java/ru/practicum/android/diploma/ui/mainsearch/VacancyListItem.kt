@@ -16,16 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Salary
 import ru.practicum.android.diploma.domain.models.VacancyCard
+import ru.practicum.android.diploma.ui.common.formatSalary
 import ru.practicum.android.diploma.ui.components.CompanyLogo
 import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.Dimens
-import ru.practicum.android.diploma.util.SalaryFormatter
 
 /**
  * Переиспользуемая карточка вакансии для списков (поиск, избранное).
@@ -83,35 +81,13 @@ fun VacancyListItem(
             }
 
             Text(
-                text = salaryText(vacancy.salary),
+                text = formatSalary(vacancy.salary),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         }
-    }
-}
-
-@Composable
-private fun salaryText(salary: Salary?): String {
-    val from = salary?.from
-    val to = salary?.to
-    return when {
-        from == null && to == null -> stringResource(R.string.salary_not_specified)
-        from != null && to != null -> stringResource(
-            R.string.salary_range,
-            SalaryFormatter.formatValue(from, salary.currency),
-            SalaryFormatter.formatValue(to, salary.currency)
-        )
-        from != null -> stringResource(
-            R.string.salary_from,
-            SalaryFormatter.formatValue(from, salary.currency)
-        )
-        else -> stringResource(
-            R.string.salary_to,
-            SalaryFormatter.formatValue(requireNotNull(to), salary.currency)
-        )
     }
 }
 
