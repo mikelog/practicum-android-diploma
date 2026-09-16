@@ -44,7 +44,11 @@ private val LightColorScheme = lightColorScheme(
     onError = White,
 
     // Затемнение позади ModalBottomSheet
-    scrim = Scrim
+    scrim = Scrim,
+
+    // Цвета текстового поля
+    tertiary = LightGray,
+    onTertiary = Gray
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -81,7 +85,11 @@ private val DarkColorScheme = darkColorScheme(
     onError = White,
 
     // Затемнение позади ModalBottomSheet
-    scrim = Scrim
+    scrim = Scrim,
+
+    // Цвета текстового поля
+    tertiary = Gray,
+    onTertiary = White
 )
 
 @Composable
