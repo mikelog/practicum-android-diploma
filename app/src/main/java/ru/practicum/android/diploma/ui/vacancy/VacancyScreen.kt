@@ -36,7 +36,7 @@ import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.data.text.toAnnotatedDescription
+import ru.practicum.android.diploma.ui.text.toAnnotatedDescription
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 import ru.practicum.android.diploma.ui.common.formatSalary
 import ru.practicum.android.diploma.ui.components.CompanyLogo

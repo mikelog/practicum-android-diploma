@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.data.text
+package ru.practicum.android.diploma.ui.text
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
