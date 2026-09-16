@@ -89,7 +89,6 @@ private fun VacancyScreenContent(
     onFavoriteClick: () -> Unit,
     onShareClick: () -> Unit,
 ) {
-
     Scaffold(
         topBar = {
             TopAppBar(
