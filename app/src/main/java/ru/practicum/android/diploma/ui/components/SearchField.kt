@@ -40,7 +40,7 @@ fun SearchField(
         modifier = modifier
             .height(Dimens.searchFieldHeight)
             .clip(shape)
-            .background(MaterialTheme.colorScheme.surfaceVariant, shape)
+            .background(MaterialTheme.colorScheme.tertiary, shape)
     ) {
         Row(
             modifier = Modifier
@@ -56,7 +56,7 @@ fun SearchField(
                     Text(
                         text = stringResource(R.string.search_hint),
                         style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
                 BasicTextField(
