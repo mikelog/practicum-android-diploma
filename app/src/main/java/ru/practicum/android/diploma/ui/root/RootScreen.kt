@@ -121,7 +121,7 @@ fun RootScreen() {
                             icon = {
                                 Icon(
                                     imageVector = ImageVector.vectorResource(
-                                        R.drawable.ic_favorites_off_24dp
+                                        R.drawable.ic_favorites_on_24dp
                                     ),
                                     contentDescription = stringResource(
                                         R.string.favorites
