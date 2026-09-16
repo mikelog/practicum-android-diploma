@@ -10,13 +10,14 @@ import ru.practicum.android.diploma.R
 
 private val AppFontFamily = FontFamily(
     Font(R.font.ys_display_regular, FontWeight.Normal),
-    Font(R.font.ys_display_medium, FontWeight.Medium)
+    Font(R.font.ys_display_medium, FontWeight.Medium),
+    Font(R.font.ys_display_bold, FontWeight.Bold)
 )
 
 val AppTypography = Typography(
     headlineLarge = TextStyle(
         fontFamily = AppFontFamily,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Bold,
         fontSize = 32.sp,
         lineHeight = 38.sp
     ),
@@ -24,21 +25,21 @@ val AppTypography = Typography(
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 22.sp,
-        lineHeight = 28.sp
+        lineHeight = 26.sp
     ),
     titleMedium = TextStyle(
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        lineHeight = 24.sp
+        lineHeight = 19.sp
     ),
     bodyLarge = TextStyle(
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 24.sp
+        lineHeight = 19.sp
     ),
-    bodyMedium = TextStyle(
+    bodyMedium = TextStyle( // не нашел такого шрифта в макетах...
         fontFamily = AppFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
