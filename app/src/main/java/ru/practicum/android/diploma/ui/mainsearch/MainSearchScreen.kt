@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.mainsearch
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,11 +28,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Salary
@@ -49,6 +52,13 @@ fun MainSearchScreen(
     viewModel: MainSearchViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(viewModel) {
+        viewModel.errorToast.collect { resId ->
+            Toast.makeText(context, resId, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     MainSearchScreenContent(
         query = state.query,
