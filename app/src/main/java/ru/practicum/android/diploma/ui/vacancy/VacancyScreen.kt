@@ -307,6 +307,7 @@ private fun VacancyDescription(
     )
 }
 
+// -----------------------------------Preview
 @Preview(
     name = "Vacancy — Loading",
     showBackground = true,
