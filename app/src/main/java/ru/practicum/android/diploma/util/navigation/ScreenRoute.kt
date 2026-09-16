@@ -8,5 +8,7 @@ sealed class ScreenRoute(val route: String) {
     object WorkplaceSelection : ScreenRoute("workplace-selection")
     object CountrySelection : ScreenRoute("country-selection")
     object IndustrySelection : ScreenRoute("industry-selection")
-    object Vacancy : ScreenRoute("vacancy")
+    object Vacancy : ScreenRoute("vacancy/{vacancyId}") {
+        fun createRoute(vacancyId: String) = "vacancy/$vacancyId"
+    }
 }

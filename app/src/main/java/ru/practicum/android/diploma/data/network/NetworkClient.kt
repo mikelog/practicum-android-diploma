@@ -21,7 +21,7 @@ object NetworkClient {
     private val authInterceptor = Interceptor { chain ->
         val token = BuildConfig.API_ACCESS_TOKEN
         val request = chain.request().newBuilder()
-            .header(AUTHORIZATION_HEADER, token)
+            .header(AUTHORIZATION_HEADER, "Bearer $token")
             .build()
         chain.proceed(request)
     }
