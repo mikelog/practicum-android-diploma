@@ -45,7 +45,7 @@ import ru.practicum.android.diploma.ui.components.Placeholder
 import ru.practicum.android.diploma.ui.theme.Dimens
 import ru.practicum.android.diploma.util.SalaryFormatter
 
-val vacancyId = "0000258d-fb45-3152-bfeb-250a4c547384"
+var vacancyId = "0000258d-fb45-3152-bfeb-250a4c547384"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VacancyScreen(
@@ -60,12 +60,8 @@ fun VacancyScreen(
     VacancyScreenContent(
         state = state, //     VacancyContent.Content(vacancy = previewVacancy),
         onBackClick = navController::navigateUp,
-        onFavoriteClick = {
-            // TODO: Добавить вакансию в избранное
-        },
-        onShareClick = {
-            // TODO: Открыть системное меню «Поделиться»
-        },
+        onFavoriteClick = { }, // добавить
+        onShareClick = { }, // добавить
     )
 }
 
