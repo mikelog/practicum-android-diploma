@@ -38,30 +38,30 @@ fun NavGraph(
     ) {
         composable(
             route = ScreenRoute.MainSearch.route,
-            enterTransition = { tabFadeIn() },
-            exitTransition = { tabFadeOut() },
-            popEnterTransition = { tabFadeIn() },
-            popExitTransition = { tabFadeOut() }
+            enterTransition = { filterSlideInForward() },
+            exitTransition = { filterSlideOutForward() },
+            popEnterTransition = { filterPopSlideInBack() },
+            popExitTransition = { filterPopSlideOutBack() }
         ) {
             MainSearchScreen(navController)
         }
 
         composable(
             route = ScreenRoute.Favorites.route,
-            enterTransition = { tabFadeIn() },
-            exitTransition = { tabFadeOut() },
-            popEnterTransition = { tabFadeIn() },
-            popExitTransition = { tabFadeOut() }
+            enterTransition = { filterSlideInForward() },
+            exitTransition = { filterSlideOutForward() },
+            popEnterTransition = { filterPopSlideInBack() },
+            popExitTransition = { filterPopSlideOutBack() }
         ) {
             FavoritesScreen(navController)
         }
 
         composable(
             route = ScreenRoute.Team.route,
-            enterTransition = { tabFadeIn() },
-            exitTransition = { tabFadeOut() },
-            popEnterTransition = { tabFadeIn() },
-            popExitTransition = { tabFadeOut() }
+            enterTransition = { filterSlideInForward() },
+            exitTransition = { filterSlideOutForward() },
+            popEnterTransition = { filterPopSlideInBack() },
+            popExitTransition = { filterPopSlideOutBack() }
         ) {
             TeamScreen(navController)
         }
@@ -126,19 +126,12 @@ private fun AnimatedContentTransitionScope<NavBackStackEntry>.filterSlideInForwa
     slideInHorizontally(animationSpec = tween(TRANSITION_DURATION)) { it } + fadeIn()
 
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.filterSlideOutForward(): ExitTransition =
-    slideOutHorizontally(animationSpec = tween(TRANSITION_DURATION)) { -it / 4 } + fadeOut()
+    slideOutHorizontally(animationSpec = tween(TRANSITION_DURATION)) { -it } + fadeOut()
 
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.filterPopSlideInBack(): EnterTransition =
-    slideInHorizontally(animationSpec = tween(TRANSITION_DURATION)) { -it / 4 } + fadeIn()
+    slideInHorizontally(animationSpec = tween(TRANSITION_DURATION)) { -it } + fadeIn()
 
 private fun AnimatedContentTransitionScope<NavBackStackEntry>.filterPopSlideOutBack(): ExitTransition =
     slideOutHorizontally(animationSpec = tween(TRANSITION_DURATION)) { it } + fadeOut()
 
-private fun AnimatedContentTransitionScope<NavBackStackEntry>.tabFadeIn(): EnterTransition =
-    fadeIn(animationSpec = tween(TAB_TRANSITION_DURATION))
-
-private fun AnimatedContentTransitionScope<NavBackStackEntry>.tabFadeOut(): ExitTransition =
-    fadeOut(animationSpec = tween(TAB_TRANSITION_DURATION))
-
 private const val TRANSITION_DURATION = 300
-private const val TAB_TRANSITION_DURATION = 200
