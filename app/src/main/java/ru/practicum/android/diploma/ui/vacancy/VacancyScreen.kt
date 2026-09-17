@@ -157,7 +157,7 @@ private fun VacancyScreenContent(
                 is VacancyContent.Error -> {
                     Placeholder(
                         image = R.drawable.placeholder_cat_in_the_shape,
-                        message = stringResource(R.string.server_error_message)
+                        message = stringResource(state.messageRes)
                     )
                 }
 

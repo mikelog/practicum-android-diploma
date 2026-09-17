@@ -47,13 +47,31 @@ class VacancyViewModel(
                 }
 
                 is Resource.Error -> {
-                    if (result.code == HTTP_NOT_FOUND) {
-                        favoriteVacancyInteractor.removeCachedDetail(vacancyId)
-                        _state.value = VacancyContent.NotFound
-                    } else {
-                        _state.value = VacancyContent.Error(
-                            messageRes = R.string.server_error_message
-                        )
+                    when {
+                        result.code == HTTP_NOT_FOUND -> {
+                            favoriteVacancyInteractor.removeCachedDetail(vacancyId)
+                            _state.value = VacancyContent.NotFound
+                        }
+
+                        result.isNetworkError() -> {
+                            val cached = favoriteVacancyInteractor.getVacancyById(vacancyId)
+                            _state.value = if (cached != null) {
+                                VacancyContent.Content(
+                                    vacancy = cached,
+                                    isFavorite = true,
+                                )
+                            } else {
+                                VacancyContent.Error(
+                                    messageRes = R.string.network_error_message
+                                )
+                            }
+                        }
+
+                        else -> {
+                            _state.value = VacancyContent.Error(
+                                messageRes = R.string.server_error_message
+                            )
+                        }
                     }
                 }
 
@@ -105,7 +123,11 @@ class VacancyViewModel(
         }
     }
 
+    private fun Resource.Error.isNetworkError(): Boolean =
+        code == null || code == NETWORK_ERROR_CODE
+
     private companion object {
         const val HTTP_NOT_FOUND = 404
+        const val NETWORK_ERROR_CODE = -1
     }
 }
