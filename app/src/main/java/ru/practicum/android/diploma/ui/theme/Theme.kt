@@ -32,7 +32,7 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Black,
 
     // Вариативные поверхности, например фон текстового поля
-    surfaceVariant = Gray,
+    surfaceVariant = LightGray,
     onSurfaceVariant = Black,
 
     // Неактивные элементы и границы
@@ -44,7 +44,11 @@ private val LightColorScheme = lightColorScheme(
     onError = White,
 
     // Затемнение позади ModalBottomSheet
-    scrim = Scrim
+    scrim = Scrim,
+
+    // Цвета текстового поля
+    tertiary = LightGray,
+    onTertiary = Gray
 )
 
 private val DarkColorScheme = darkColorScheme(
@@ -69,8 +73,8 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = White,
 
     // Фон текстового поля
-    surfaceVariant = Gray,
-    onSurfaceVariant = White,
+    surfaceVariant = LightGray,
+    onSurfaceVariant = Black,
 
     // Неактивные элементы и границы
     outline = Gray,
@@ -81,7 +85,11 @@ private val DarkColorScheme = darkColorScheme(
     onError = White,
 
     // Затемнение позади ModalBottomSheet
-    scrim = Scrim
+    scrim = Scrim,
+
+    // Цвета текстового поля
+    tertiary = Gray,
+    onTertiary = White
 )
 
 @Composable

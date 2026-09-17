@@ -4,6 +4,16 @@
     <string name="vacancy_search">Поиск вакансий</string>
     <string name="favorites">Избранное</string>
     <string name="team">Команда</string>
+    <string name="team_header">Над приложением работали</string>
+    <string name="team_member_name_logins">Логинов Михаил Игоревич</string>
+    <string name="team_member_role_logins">Team lead</string>
+    <string name="team_member_initials_logins">ЛМ</string>
+    <string name="team_member_name_bitkin">Биткин Сергей Анатольевич</string>
+    <string name="team_member_role_bitkin">Android developer</string>
+    <string name="team_member_initials_bitkin">БС</string>
+    <string name="team_member_name_matuskin">Матушкин Алексей Иванович</string>
+    <string name="team_member_role_matuskin">Android Developer</string>
+    <string name="team_member_initials_matuskin">МА</string>
     <string name="filtering_settings">Настройки фильтрации</string>
     <string name="workplace_selection">Выбор места работы</string>
     <string name="сountry_selection">Выбор страны</string>
@@ -11,5 +21,32 @@
     <string name="vacancy">Вакансия</string>
 
     <string name="main">Главная</string>
+
+    <string name="salary_not_specified">Зарплата не указана</string>
+    <string name="salary_from">От %1$s</string>
+    <string name="salary_to">До %1$s</string>
+    <string name="salary_range">От %1$s до %2$s</string>
+
+    <string name="search_hint">Введите запрос</string>
+    <string name="cd_search_icon">Поиск</string>
+    <string name="cd_clear_query">Очистить поле поиска</string>
+    <string name="no_vacancies_found">Таких вакансий нет</string>
+    <string name="empty_result_message">Не удалось получить список вакансий</string>
+    <string name="network_error_message">Нет интернета</string>
+    <string name="server_error_message">Ошибка сервера</string>
+    <string name="favorites_empty_message">Список пуст</string>
+    <string name="vacancy_not_found_or_has_been_removed">Вакансия не найдена или удалена</string>
+
+    <plurals name="found_vacancies">
+        <item quantity="one">Найдено %d вакансия</item>
+        <item quantity="few">Найдено %d вакансии</item>
+        <item quantity="many">Найдено %d вакансий</item>
+        <item quantity="other">Найдено %d вакансий</item>
+    </plurals>
+
+    <string name="experience">Требуемый опыт</string>
+    <string name="key_skills">Ключевые навыки</string>
+    <string name="contacts">Контакты</string>
+
 
 </resources>
