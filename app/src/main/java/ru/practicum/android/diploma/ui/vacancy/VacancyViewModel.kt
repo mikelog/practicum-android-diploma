@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.network.Resource
 import ru.practicum.android.diploma.domain.api.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.domain.api.VacancyDetailInteractor
@@ -61,16 +60,12 @@ class VacancyViewModel(
                                     isFavorite = true,
                                 )
                             } else {
-                                VacancyContent.Error(
-                                    messageRes = R.string.network_error_message
-                                )
+                                VacancyContent.NetworkError
                             }
                         }
 
                         else -> {
-                            _state.value = VacancyContent.Error(
-                                messageRes = R.string.server_error_message
-                            )
+                            _state.value = VacancyContent.ServerError
                         }
                     }
                 }
