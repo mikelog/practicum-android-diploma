@@ -154,9 +154,16 @@ private fun VacancyScreenContent(
                     )
                 }
 
-                is VacancyContent.Error -> {
+                VacancyContent.NetworkError -> {
                     Placeholder(
-                        image = R.drawable.placeholder_cat_in_the_shape,
+                        image = R.drawable.placeholder_scull,
+                        message = stringResource(R.string.network_error_message)
+                    )
+                }
+
+                VacancyContent.ServerError -> {
+                    Placeholder(
+                        image = R.drawable.placeholder_crying,
                         message = stringResource(R.string.server_error_message)
                     )
                 }
@@ -362,9 +369,7 @@ private fun VacancyScreenContentPreview() {
 private fun VacancyScreenErrorPreview() {
     MaterialTheme {
         VacancyScreenContent(
-            state = VacancyContent.Error(
-                messageRes = R.string.server_error_message,
-            ),
+            state = VacancyContent.ServerError,
             onBackClick = {},
             onFavoriteClick = {},
             onShareClick = {},
