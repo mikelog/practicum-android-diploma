@@ -31,6 +31,9 @@ class MainSearchViewModel(
     private val _errorToast = MutableSharedFlow<Int>()
     val errorToast: SharedFlow<Int> = _errorToast.asSharedFlow()
 
+    private val _searchStarted = MutableSharedFlow<Unit>()
+    val searchStarted: SharedFlow<Unit> = _searchStarted.asSharedFlow()
+
     init {
         viewModelScope.launch {
             query
@@ -105,6 +108,7 @@ class MainSearchViewModel(
             return
         }
 
+        _searchStarted.emit(Unit)
         currentPage = 0
         totalPages = 1
         _state.value = _state.value.copy(content = MainSearchContent.Loading, isNextPageLoading = false)

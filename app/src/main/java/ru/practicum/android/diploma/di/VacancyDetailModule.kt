@@ -27,6 +27,7 @@ val vacancyDetailModule = module {
         VacancyViewModel(
             vacancyId = vacancyId,
             vacancyDetailInteractor = get(),
+            favoriteVacancyInteractor = get()
         )
     }
 }
