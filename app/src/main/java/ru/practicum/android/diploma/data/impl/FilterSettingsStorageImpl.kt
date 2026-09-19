@@ -1,9 +1,9 @@
-package ru.practicum.android.diploma.data.settings
+package ru.practicum.android.diploma.data.impl
 
 import android.content.Context
 import androidx.core.content.edit
 import ru.practicum.android.diploma.domain.models.FilterParameters
-import ru.practicum.android.diploma.domain.repository.FilterSettingsStorage
+import ru.practicum.android.diploma.domain.api.FilterSettingsStorage
 
 class FilterSettingsStorageImpl(
     context: Context,
