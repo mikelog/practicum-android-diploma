@@ -102,6 +102,9 @@ dependencies {
     // Coroutines
     implementation(libs.bundles.coroutines)
 
+    // Immutable collections
+    implementation(libs.kotlinx.immutableCollections)
+
     // Lifecycle
     implementation(libs.bundles.lifecycle)
 

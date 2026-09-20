@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -34,7 +33,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
@@ -46,13 +49,22 @@ import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.Dimens
 import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
+// Счётчик найденных вакансий (по макету Figma: Chip)
+private val chipCornerRadius = 12.dp
+private val chipHorizontalPadding = 12.dp
+private val chipVerticalPadding = 4.dp
+
+// Отступ сверху над Chip: по макету общий отступ от поля поиска = 11.dp,
+// само поле поиска уже добавляет снизу spacingS (8.dp), поэтому здесь только разница
+private val chipTopSpacing = 3.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainSearchScreen(
     navController: NavController,
     viewModel: MainSearchViewModel = koinViewModel()
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -147,7 +159,7 @@ private fun MainSearchScreenContent(
                             text = stringResource(R.string.no_vacancies_found),
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
-                                .padding(top = Dimens.chipTopSpacing)
+                                .padding(top = chipTopSpacing)
                         )
                         Placeholder(
                             image = R.drawable.placeholder_cat_with_a_plate,
@@ -173,7 +185,7 @@ private fun MainSearchScreenContent(
 
 @Composable
 private fun ResultsState(
-    vacancies: List<VacancyCard>,
+    vacancies: ImmutableList<VacancyCard>,
     found: Int,
     isNextPageLoading: Boolean,
     onListScrolledToEnd: () -> Unit,
@@ -198,7 +210,7 @@ private fun ResultsState(
             text = pluralStringResource(R.plurals.found_vacancies, found, found),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = Dimens.chipTopSpacing, bottom = Dimens.spacingS)
+                .padding(top = chipTopSpacing, bottom = Dimens.spacingS)
         )
         LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
             items(vacancies, key = { it.id }) { vacancy ->
@@ -227,9 +239,9 @@ private fun FoundCountChip(
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(Dimens.chipCornerRadius))
+            .clip(RoundedCornerShape(chipCornerRadius))
             .background(MaterialTheme.colorScheme.primary)
-            .padding(horizontal = Dimens.chipHorizontalPadding, vertical = Dimens.chipVerticalPadding)
+            .padding(horizontal = chipHorizontalPadding, vertical = chipVerticalPadding)
     ) {
         Text(
             text = text,
@@ -258,7 +270,7 @@ private val previewVacancies = listOf(
         salary = null,
         logo = null
     )
-)
+).toImmutableList()
 
 @Preview(showBackground = true, name = "Idle")
 @Composable

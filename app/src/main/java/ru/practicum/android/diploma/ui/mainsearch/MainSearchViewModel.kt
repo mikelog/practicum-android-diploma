@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.ui.mainsearch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -77,7 +78,7 @@ class MainSearchViewModel(
                     return
                 }
                 currentPage = result.data.page
-                val deduped = (currentContent.vacancies + result.data.items).distinctBy { it.id }
+                val deduped = (currentContent.vacancies + result.data.items).distinctBy { it.id }.toImmutableList()
                 _state.value = _state.value.copy(
                     isNextPageLoading = false,
                     content = MainSearchContent.Content(
@@ -96,9 +97,7 @@ class MainSearchViewModel(
                 _errorToast.emit(result.toErrorMessageRes())
             }
 
-            Resource.Loading -> {
-                // no-op
-            }
+            Resource.Loading -> Unit
         }
     }
 
@@ -125,7 +124,7 @@ class MainSearchViewModel(
                         MainSearchContent.Empty
                     } else {
                         MainSearchContent.Content(
-                            vacancies = response.items,
+                            vacancies = response.items.toImmutableList(),
                             found = response.found
                         )
                     }
@@ -136,9 +135,7 @@ class MainSearchViewModel(
                 _state.value = _state.value.copy(content = result.toMainSearchContent())
             }
 
-            Resource.Loading -> {
-                // no-op
-            }
+            Resource.Loading -> Unit
         }
     }
 
