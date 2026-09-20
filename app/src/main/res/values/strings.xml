@@ -48,5 +48,10 @@
     <string name="key_skills">Ключевые навыки</string>
     <string name="contacts">Контакты</string>
 
+    <string name="expected_salary">Ожидаемая зарплата</string>
+    <string name="enter_the_amount">Введите сумму</string>
+
+    <string name="apply">Применить</string>
+    <string name="reset">Сбросить</string>
 
 </resources>
