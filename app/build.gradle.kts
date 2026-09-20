@@ -74,6 +74,7 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
     implementation(libs.compose.materialIconsExtended)
+    implementation(libs.material3)
     debugImplementation(libs.compose.uiTooling)
 
     // Networking

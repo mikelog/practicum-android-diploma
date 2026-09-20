@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 object Dimens {
 
     // Базовая сетка отступов
-    val spacingXxs = 2.dp
+    val spacingXxs = 1.dp
     val spacingXs = 4.dp
     val spacingS = 8.dp
     val spacingM = 12.dp
@@ -53,4 +53,16 @@ object Dimens {
 
     // экран деталей
     val cardHeight = 80.dp
+
+    // Поле "ожидаемая зарплата"
+    val salaryFilterFieldCornerRadius = 12.dp
+    val salaryFilterField = 51.dp
+
+    // Основная кнопка
+    val primaryButton = 59.dp
+    val primaryButtonCornerRadius = 12.dp
+
+    // Кнопка сброса
+    val resetButton = 59.dp
+    val resetButtonCornerRadius = 12.dp
 }
