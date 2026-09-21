@@ -21,8 +21,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.ui.theme.Dimens
+
+// Поле поиска (по макету Figma: Search Stack)
+private val searchFieldHeight = 56.dp
+private val searchFieldCornerRadius = 12.dp
+private val searchFieldIconButtonSize = 48.dp
 
 /**
  * Переиспользуемое поле поиска с hint-ом и кнопкой очистки
@@ -35,10 +41,10 @@ fun SearchField(
     onClearQuery: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val shape = RoundedCornerShape(Dimens.searchFieldCornerRadius)
+    val shape = RoundedCornerShape(searchFieldCornerRadius)
     Box(
         modifier = modifier
-            .height(Dimens.searchFieldHeight)
+            .height(searchFieldHeight)
             .clip(shape)
             .background(MaterialTheme.colorScheme.tertiary, shape)
     ) {
@@ -73,7 +79,7 @@ fun SearchField(
 
             if (query.isEmpty()) {
                 Box(
-                    modifier = Modifier.size(Dimens.searchFieldIconButtonSize),
+                    modifier = Modifier.size(searchFieldIconButtonSize),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -85,7 +91,7 @@ fun SearchField(
             } else {
                 IconButton(
                     onClick = onClearQuery,
-                    modifier = Modifier.size(Dimens.searchFieldIconButtonSize)
+                    modifier = Modifier.size(searchFieldIconButtonSize)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_close_24dp),

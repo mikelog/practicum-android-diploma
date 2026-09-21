@@ -21,9 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.ui.theme.Dimens
+
+// Экран «Команда»
+private val teamHeaderHeight = 76.dp
+private val teamAvatarSize = 48.dp
 
 private data class TeamMember(
     val nameRes: Int,
@@ -74,7 +79,7 @@ fun TeamScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = Dimens.spacingL)
-                    .height(Dimens.teamHeaderHeight)
+                    .height(teamHeaderHeight)
             )
 
             LazyColumn(
@@ -98,7 +103,7 @@ private fun TeamMemberItem(member: TeamMember) {
     ) {
         Box(
             modifier = Modifier
-                .size(Dimens.teamAvatarSize)
+                .size(teamAvatarSize)
                 .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
             contentAlignment = Alignment.Center
         ) {

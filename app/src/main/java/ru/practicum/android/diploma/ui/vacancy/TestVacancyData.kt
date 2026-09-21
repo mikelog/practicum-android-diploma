@@ -91,7 +91,7 @@ val previewVacancy = VacancyDetail(
     url = "https://example.com/vacancies/" +
         "00d1a097-4f31-3e91-bc13-6287faa6f99c",
     industry = FilterIndustry(
-        id = "7",
+        id = 7,
         name = "Информационные технологии, системная интеграция, интернет",
     ),
 )
