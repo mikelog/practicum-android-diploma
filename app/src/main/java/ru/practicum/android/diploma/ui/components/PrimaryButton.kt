@@ -8,7 +8,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ru.practicum.android.diploma.ui.theme.Dimens
+import androidx.compose.ui.unit.dp
+
+// Основная кнопка
+private val primaryButtonHeight = 59.dp
+private val primaryButtonCornerRadius = 12.dp
 
 @Composable
 fun PrimaryButton(
@@ -21,9 +25,9 @@ fun PrimaryButton(
         Button(
             onClick = { onClickAction?.invoke() },
             modifier = modifier
-                .height(Dimens.primaryButton)
+                .height(primaryButtonHeight)
                 .fillMaxWidth(),
-            shape = RoundedCornerShape(Dimens.primaryButtonCornerRadius)
+            shape = RoundedCornerShape(primaryButtonCornerRadius)
         ) {
             Text(
                 text = text,
