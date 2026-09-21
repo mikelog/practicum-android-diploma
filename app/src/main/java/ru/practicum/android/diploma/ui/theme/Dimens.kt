@@ -29,16 +29,4 @@ object Dimens {
     val vacancyLogoSize = 48.dp
     val vacancyLogoCornerRadius = 12.dp
     val vacancyLogoBorderWidth = 1.dp
-
-    // Поле "ожидаемая зарплата"
-    val salaryFilterFieldCornerRadius = 12.dp
-    val salaryFilterField = 51.dp
-
-    // Основная кнопка
-    val primaryButton = 59.dp
-    val primaryButtonCornerRadius = 12.dp
-
-    // Кнопка сброса
-    val resetButton = 59.dp
-    val resetButtonCornerRadius = 12.dp
 }

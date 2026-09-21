@@ -22,8 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.ui.theme.Dimens
+
+// Поле "ожидаемая зарплата"
+private val salaryFilterFieldCornerRadius = 12.dp
 
 @Composable
 fun SalaryTextField(
@@ -77,7 +81,7 @@ fun SalaryTextField(
                 revertAllChanges()
             }
         },
-        shape = RoundedCornerShape(Dimens.salaryFilterFieldCornerRadius),
+        shape = RoundedCornerShape(salaryFilterFieldCornerRadius),
         colors = TextFieldDefaults.colors(
             focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
             unfocusedLabelColor = if (state.text.isNotEmpty() && !isFocused) {

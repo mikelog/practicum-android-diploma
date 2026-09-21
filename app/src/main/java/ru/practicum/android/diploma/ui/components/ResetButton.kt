@@ -9,7 +9,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ru.practicum.android.diploma.ui.theme.Dimens
+import androidx.compose.ui.unit.dp
+
+// Кнопка сброса
+private val resetButtonHeight = 59.dp
+private val resetButtonCornerRadius = 12.dp
 
 @Composable
 fun ResetButton(
@@ -22,9 +26,9 @@ fun ResetButton(
         Button(
             onClick = { onClickAction?.invoke() },
             modifier = modifier
-                .height(Dimens.resetButton)
+                .height(resetButtonHeight)
                 .fillMaxWidth(),
-            shape = RoundedCornerShape(Dimens.resetButtonCornerRadius),
+            shape = RoundedCornerShape(resetButtonCornerRadius),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.background,
                 contentColor = MaterialTheme.colorScheme.error
