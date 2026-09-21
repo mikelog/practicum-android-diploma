@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.ui.components.PrimaryButton
@@ -22,6 +23,8 @@ import ru.practicum.android.diploma.ui.components.ResetButton
 import ru.practicum.android.diploma.ui.components.SalaryTextField
 import ru.practicum.android.diploma.ui.theme.Dimens
 import ru.practicum.android.diploma.util.navigation.ScreenRoute
+
+private val salaryFilterFieldHeight = 51.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +59,7 @@ fun FilteringSettingsScreen(navController: NavController) {
                 placeholderText = stringResource(R.string.enter_the_amount),
                 modifier = Modifier
                     .padding(top = Dimens.spacingXl)
-                    .height(Dimens.salaryFilterField)
+                    .height(salaryFilterFieldHeight)
             )
 
             Spacer(
