@@ -21,20 +21,24 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
@@ -46,19 +50,43 @@ import ru.practicum.android.diploma.ui.theme.AppTheme
 import ru.practicum.android.diploma.ui.theme.Dimens
 import ru.practicum.android.diploma.util.navigation.ScreenRoute
 
+// Счётчик найденных вакансий (по макету Figma: Chip)
+private val chipCornerRadius = 12.dp
+private val chipHorizontalPadding = 12.dp
+private val chipVerticalPadding = 4.dp
+
+// Отступ сверху над Chip: по макету общий отступ от поля поиска = 11.dp,
+// само поле поиска уже добавляет снизу spacingS (8.dp), поэтому здесь только разница
+private val chipTopSpacing = 3.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainSearchScreen(
     navController: NavController,
     viewModel: MainSearchViewModel = koinViewModel()
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
     LaunchedEffect(viewModel) {
         viewModel.errorToast.collect { resId ->
             Toast.makeText(context, resId, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Перезапускается при каждом возврате на экран (в т.ч. с экрана фильтра)
+    LaunchedEffect(navController, viewModel) {
+        viewModel.refreshFilterState()
+        navController.currentBackStackEntry?.savedStateHandle?.let { savedStateHandle ->
+            savedStateHandle
+                .getStateFlow(ScreenRoute.SelectionResult.FILTER_APPLIED_KEY, false)
+                .collect { isApplied ->
+                    if (isApplied) {
+                        savedStateHandle[ScreenRoute.SelectionResult.FILTER_APPLIED_KEY] = false
+                        viewModel.onFilterApplied()
+                    }
+                }
         }
     }
 
@@ -72,6 +100,7 @@ fun MainSearchScreen(
         query = state.query,
         content = state.content,
         isNextPageLoading = state.isNextPageLoading,
+        isFilterActive = state.isFilterActive,
         onQueryChange = viewModel::onQueryChanged,
         onClearQuery = viewModel::onQueryCleared,
         onListScrolledToEnd = viewModel::onListScrolledToEnd,
@@ -86,6 +115,7 @@ private fun MainSearchScreenContent(
     query: String,
     content: MainSearchContent,
     isNextPageLoading: Boolean,
+    isFilterActive: Boolean,
     onQueryChange: (String) -> Unit,
     onClearQuery: () -> Unit,
     onListScrolledToEnd: () -> Unit,
@@ -98,10 +128,19 @@ private fun MainSearchScreenContent(
                 title = { Text(text = stringResource(R.string.vacancy_search)) },
                 actions = {
                     IconButton(onClick = onFilterClick) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_filter_off_24dp),
-                            contentDescription = stringResource(R.string.filtering_settings)
-                        )
+                        if (isFilterActive) {
+                            // У иконки «вкл» свой фон из макета — тинт не применяем
+                            Icon(
+                                painter = painterResource(R.drawable.ic_filter_on_24dp),
+                                contentDescription = stringResource(R.string.filtering_settings),
+                                tint = Color.Unspecified
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_filter_off_24dp),
+                                contentDescription = stringResource(R.string.filtering_settings)
+                            )
+                        }
                     }
                 },
                 expandedHeight = Dimens.topBarHeight
@@ -147,7 +186,7 @@ private fun MainSearchScreenContent(
                             text = stringResource(R.string.no_vacancies_found),
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
-                                .padding(top = Dimens.chipTopSpacing)
+                                .padding(top = chipTopSpacing)
                         )
                         Placeholder(
                             image = R.drawable.placeholder_cat_with_a_plate,
@@ -173,7 +212,7 @@ private fun MainSearchScreenContent(
 
 @Composable
 private fun ResultsState(
-    vacancies: List<VacancyCard>,
+    vacancies: ImmutableList<VacancyCard>,
     found: Int,
     isNextPageLoading: Boolean,
     onListScrolledToEnd: () -> Unit,
@@ -198,7 +237,7 @@ private fun ResultsState(
             text = pluralStringResource(R.plurals.found_vacancies, found, found),
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = Dimens.chipTopSpacing, bottom = Dimens.spacingS)
+                .padding(top = chipTopSpacing, bottom = Dimens.spacingS)
         )
         LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
             items(vacancies, key = { it.id }) { vacancy ->
@@ -227,9 +266,9 @@ private fun FoundCountChip(
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(Dimens.chipCornerRadius))
+            .clip(RoundedCornerShape(chipCornerRadius))
             .background(MaterialTheme.colorScheme.primary)
-            .padding(horizontal = Dimens.chipHorizontalPadding, vertical = Dimens.chipVerticalPadding)
+            .padding(horizontal = chipHorizontalPadding, vertical = chipVerticalPadding)
     ) {
         Text(
             text = text,
@@ -258,7 +297,7 @@ private val previewVacancies = listOf(
         salary = null,
         logo = null
     )
-)
+).toImmutableList()
 
 @Preview(showBackground = true, name = "Idle")
 @Composable
@@ -268,6 +307,7 @@ private fun MainSearchScreenIdlePreview() {
             query = "",
             content = MainSearchContent.Idle,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -285,6 +325,7 @@ private fun MainSearchScreenLoadingPreview() {
             query = "Android",
             content = MainSearchContent.Loading,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -302,6 +343,7 @@ private fun MainSearchScreenContentPreview() {
             query = PREVIEW_QUERY,
             content = MainSearchContent.Content(vacancies = previewVacancies, found = 286),
             isNextPageLoading = false,
+            isFilterActive = true,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -319,6 +361,7 @@ private fun MainSearchScreenEmptyPreview() {
             query = "Абвгд",
             content = MainSearchContent.Empty,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -336,6 +379,7 @@ private fun MainSearchScreenNetworkErrorPreview() {
             query = PREVIEW_QUERY,
             content = MainSearchContent.NetworkError,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -353,6 +397,7 @@ private fun MainSearchScreenServerErrorPreview() {
             query = PREVIEW_QUERY,
             content = MainSearchContent.ServerError,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},

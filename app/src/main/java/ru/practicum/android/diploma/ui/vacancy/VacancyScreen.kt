@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
@@ -41,8 +41,10 @@ import ru.practicum.android.diploma.domain.models.VacancyDetail
 import ru.practicum.android.diploma.ui.common.formatSalary
 import ru.practicum.android.diploma.ui.components.CompanyLogo
 import ru.practicum.android.diploma.ui.components.Placeholder
-import ru.practicum.android.diploma.ui.text.toAnnotatedDescription
 import ru.practicum.android.diploma.ui.theme.Dimens
+
+// Экран деталей вакансии: карточка работодателя
+private val cardHeight = 80.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -154,9 +156,16 @@ private fun VacancyScreenContent(
                     )
                 }
 
-                is VacancyContent.Error -> {
+                VacancyContent.NetworkError -> {
                     Placeholder(
-                        image = R.drawable.placeholder_cat_in_the_shape,
+                        image = R.drawable.placeholder_scull,
+                        message = stringResource(R.string.network_error_message)
+                    )
+                }
+
+                VacancyContent.ServerError -> {
+                    Placeholder(
+                        image = R.drawable.placeholder_crying,
                         message = stringResource(R.string.server_error_message)
                     )
                 }
@@ -209,7 +218,7 @@ private fun VacancyDetails(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = Dimens.spacingXl)
-                .height(Dimens.cardHeight)
+                .height(cardHeight)
                 .clip(RoundedCornerShape(Dimens.spacingM))
                 .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
@@ -276,13 +285,22 @@ private fun VacancyDetails(
                 modifier = Modifier.padding(top = Dimens.spacingXs)
             )
 
-            Text(
-                text = vacancy.schedule ?: "",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = Dimens.spacingXs)
-            )
+            val employmentAndSchedule = listOfNotNull(
+                vacancy.employment?.takeIf { it.isNotBlank() },
+                vacancy.schedule?.takeIf { it.isNotBlank() },
+            ).joinToString(separator = ", ")
 
-            VacancyDescription(vacancy.description)
+            if (employmentAndSchedule.isNotBlank()) {
+                Text(
+                    text = employmentAndSchedule,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
+
+            VacancyDescription(
+                description = vacancy.description,
+                modifier = Modifier.padding(top = Dimens.spacingXxl)
+            )
 
             SkillsSection(
                 skills = vacancy.skills,
@@ -295,25 +313,6 @@ private fun VacancyDetails(
             )
         }
     }
-}
-
-@Composable
-private fun VacancyDescription(
-    description: String?,
-) {
-    if (description.isNullOrBlank()) {
-        return
-    }
-
-    val formattedDescription = remember(description) {
-        description.toAnnotatedDescription()
-    }
-
-    Text(
-        text = formattedDescription,
-        style = MaterialTheme.typography.bodyLarge,
-        modifier = Modifier.padding(top = Dimens.spacingXxl),
-    )
 }
 
 // -----------------------------------Preview
@@ -362,9 +361,7 @@ private fun VacancyScreenContentPreview() {
 private fun VacancyScreenErrorPreview() {
     MaterialTheme {
         VacancyScreenContent(
-            state = VacancyContent.Error(
-                messageRes = R.string.server_error_message,
-            ),
+            state = VacancyContent.ServerError,
             onBackClick = {},
             onFavoriteClick = {},
             onShareClick = {},
