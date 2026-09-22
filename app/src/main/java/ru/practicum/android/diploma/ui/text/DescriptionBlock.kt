@@ -29,29 +29,15 @@ private fun parseChildren(parent: Element): List<DescriptionBlock> {
     return parent.children().flatMap { element ->
         when (element.normalName()) {
             "h2" -> {
-                listOf(
-                    DescriptionBlock.Heading(
-                        level = 2,
-                        html = element.html(),
-                    ),
-                )
+                listOf( DescriptionBlock.Heading(level = 2, html = element.html()) )
             }
 
             "h3" -> {
-                listOf(
-                    DescriptionBlock.Heading(
-                        level = 3,
-                        html = element.html(),
-                    ),
-                )
+                listOf( DescriptionBlock.Heading(level = 3, html = element.html()) )
             }
 
             "p" -> {
-                listOf(
-                    DescriptionBlock.Paragraph(
-                        html = element.html(),
-                    ),
-                )
+                listOf( DescriptionBlock.Paragraph( html = element.html()) )
             }
 
             "ul", "ol" -> {
