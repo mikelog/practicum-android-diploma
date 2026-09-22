@@ -3,8 +3,8 @@ package ru.practicum.android.diploma.ui.text
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 
-private const val H2_LEVEL = 2
-private const val H3_LEVEL = 3
+const val H2_LEVEL = 2
+const val H3_LEVEL = 3
 
 sealed interface DescriptionBlock {
     data class Heading(val level: Int, val html: String) : DescriptionBlock

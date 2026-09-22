@@ -26,26 +26,23 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Contacts
 import ru.practicum.android.diploma.domain.models.Phone
 import ru.practicum.android.diploma.ui.text.DescriptionBlock
+import ru.practicum.android.diploma.ui.text.H2_LEVEL
+import ru.practicum.android.diploma.ui.text.H3_LEVEL
 import ru.practicum.android.diploma.ui.text.toDescriptionBlocks
 import ru.practicum.android.diploma.ui.theme.Dimens
 
-@Suppress("detekt.CognitiveComplexMethod")
+private val HeadingToParagraphSpacing: Dp = 16.dp
+private val HeadingToListSpacing: Dp = 4.dp
+private val ParagraphSpacing: Dp = 0.dp
+private val BlockSpacing: Dp = 16.dp
+private val ListItemSpacing: Dp = 0.dp
+private val ListMarkerWidth: Dp = 24.dp
+
 @Composable
 fun VacancyDescription(
     description: String?,
     modifier: Modifier = Modifier
 ) {
-    val h2Style: TextStyle = MaterialTheme.typography.titleLarge
-    val h3Style: TextStyle = MaterialTheme.typography.titleMedium
-    val paragraphStyle: TextStyle = MaterialTheme.typography.bodyLarge
-    val listStyle: TextStyle = MaterialTheme.typography.bodyLarge
-
-    val headingToParagraphSpacing: Dp = 16.dp
-    val headingToListSpacing: Dp = 4.dp
-    val paragraphSpacing: Dp = 0.dp
-    val blockSpacing: Dp = 16.dp
-    val listItemSpacing: Dp = 0.dp
-
     if (description.isNullOrBlank()) {
         return
     }
@@ -59,93 +56,96 @@ fun VacancyDescription(
             val previousBlock = blocks.getOrNull(index - 1)
 
             if (previousBlock != null) {
-                val spacing = when {
-                    previousBlock is DescriptionBlock.Heading &&
-                        previousBlock.level == 2 &&
-                        block is DescriptionBlock.Paragraph -> {
-                        headingToParagraphSpacing
-                    }
-
-                    previousBlock is DescriptionBlock.Heading &&
-                        previousBlock.level == 3 &&
-                        block is DescriptionBlock.ListBlock -> {
-                        headingToListSpacing
-                    }
-
-                    previousBlock is DescriptionBlock.Paragraph &&
-                        block is DescriptionBlock.Paragraph -> {
-                        paragraphSpacing
-                    }
-
-                    else -> {
-                        blockSpacing
-                    }
-                }
-
                 Spacer(
-                    modifier = Modifier.height(spacing),
+                    modifier = Modifier.height(spacingBetween(previousBlock, block)),
                 )
             }
 
-            when (block) {
-                is DescriptionBlock.Heading -> {
-                    val text = remember(block.html) {
-                        AnnotatedString.fromHtml(block.html)
-                    }
+            DescriptionBlockContent(block)
+        }
+    }
+}
 
-                    Text(
-                        text = text,
-                        style = if (block.level == 2) {
-                            h2Style
-                        } else {
-                            h3Style
-                        },
-                    )
-                }
+private fun spacingBetween(previous: DescriptionBlock, current: DescriptionBlock): Dp = when {
+    previous is DescriptionBlock.Heading &&
+        previous.level == H2_LEVEL &&
+        current is DescriptionBlock.Paragraph -> HeadingToParagraphSpacing
 
-                is DescriptionBlock.Paragraph -> {
-                    val text = remember(block.html) {
-                        AnnotatedString.fromHtml(block.html)
-                    }
+    previous is DescriptionBlock.Heading &&
+        previous.level == H3_LEVEL &&
+        current is DescriptionBlock.ListBlock -> HeadingToListSpacing
 
-                    Text(
-                        text = text,
-                        style = paragraphStyle,
-                    )
-                }
+    previous is DescriptionBlock.Paragraph &&
+        current is DescriptionBlock.Paragraph -> ParagraphSpacing
 
-                is DescriptionBlock.ListBlock -> {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(listItemSpacing),
-                    ) {
-                        block.items.forEachIndexed { itemIndex, itemHtml ->
-                            val itemText = remember(itemHtml) {
-                                AnnotatedString.fromHtml(itemHtml)
-                            }
+    else -> BlockSpacing
+}
 
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.Top,
-                            ) {
-                                Text(
-                                    text = if (block.ordered) {
-                                        "${itemIndex + 1}."
-                                    } else {
-                                        "•"
-                                    },
-                                    style = listStyle,
-                                    modifier = Modifier.width(24.dp),
-                                )
+@Composable
+private fun DescriptionBlockContent(block: DescriptionBlock) {
+    when (block) {
+        is DescriptionBlock.Heading -> HtmlText(
+            html = block.html,
+            style = if (block.level == H2_LEVEL) {
+                MaterialTheme.typography.titleLarge
+            } else {
+                MaterialTheme.typography.titleMedium
+            },
+        )
 
-                                Text(
-                                    text = itemText,
-                                    style = listStyle,
-                                    modifier = Modifier.weight(1f),
-                                )
-                            }
-                        }
-                    }
-                }
+        is DescriptionBlock.Paragraph -> HtmlText(
+            html = block.html,
+            style = MaterialTheme.typography.bodyLarge,
+        )
+
+        is DescriptionBlock.ListBlock -> DescriptionList(block)
+    }
+}
+
+@Composable
+private fun HtmlText(
+    html: String,
+    style: TextStyle,
+    modifier: Modifier = Modifier
+) {
+    val text = remember(html) {
+        AnnotatedString.fromHtml(html)
+    }
+
+    Text(
+        text = text,
+        style = style,
+        modifier = modifier,
+    )
+}
+
+@Composable
+private fun DescriptionList(block: DescriptionBlock.ListBlock) {
+    val listStyle = MaterialTheme.typography.bodyLarge
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(ListItemSpacing),
+    ) {
+        block.items.forEachIndexed { itemIndex, itemHtml ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.Top,
+            ) {
+                Text(
+                    text = if (block.ordered) {
+                        "${itemIndex + 1}."
+                    } else {
+                        "•"
+                    },
+                    style = listStyle,
+                    modifier = Modifier.width(ListMarkerWidth),
+                )
+
+                HtmlText(
+                    html = itemHtml,
+                    style = listStyle,
+                    modifier = Modifier.weight(1f),
+                )
             }
         }
     }
@@ -182,7 +182,7 @@ fun SkillsSection(
                 Text(
                     text = "•",
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.width(24.dp),
+                    modifier = Modifier.width(ListMarkerWidth),
                 )
 
                 Text(
