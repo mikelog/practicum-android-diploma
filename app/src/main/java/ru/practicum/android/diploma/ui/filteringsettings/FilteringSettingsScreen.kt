@@ -6,17 +6,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import kotlinx.coroutines.flow.distinctUntilChanged
+import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.ui.components.PrimaryButton
 import ru.practicum.android.diploma.ui.components.ResetButton
@@ -28,7 +35,124 @@ private val salaryFilterFieldHeight = 51.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilteringSettingsScreen(navController: NavController) {
+fun FilteringSettingsScreen(
+    navController: NavController,
+    viewModel: FilteringSettingsViewModel = koinViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    FilteringSettingsContent(
+        navController = navController,
+        uiState = uiState,
+        onSalaryChanged = viewModel::onSalaryChanged,
+        onApplyClicked = viewModel::onApplyClicked,
+        onResetClicked = viewModel::onResetClicked,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun FilteringSettingsContent(
+    navController: NavController,
+    uiState: FilteringSettingsUiState,
+    onSalaryChanged: (String) -> Unit,
+    onApplyClicked: () -> Unit,
+    onResetClicked: () -> Unit,
+) {
+    val salaryState = rememberTextFieldState(
+        initialText = uiState.parameters.salary?.toString().orEmpty(),
+    )
+
+    LaunchedEffect(salaryState) {
+        snapshotFlow {
+            salaryState.text.toString()
+        }
+            .distinctUntilChanged()
+            .collect { value ->
+                onSalaryChanged(value)
+            }
+    }
+
+    LaunchedEffect(uiState.parameters.salary) {
+        val expectedText = uiState.parameters.salary
+            ?.toString()
+            .orEmpty()
+
+        if (salaryState.text.toString() != expectedText) {
+            salaryState.setTextAndPlaceCursorAtEnd(expectedText)
+        }
+    }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.filtering_settings),
+                    )
+                },
+                expandedHeight = Dimens.topBarHeight,
+            )
+        },
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(horizontal = Dimens.spacingL)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Button(
+                onClick = {
+                    navController.navigate(
+                        ScreenRoute.IndustrySelection.route,
+                    )
+                },
+            ) {
+                Text(text = "Выбор отрасли")
+            }
+
+            SalaryTextField(
+                state = salaryState,
+                labelText = stringResource(R.string.expected_salary),
+                placeholderText = stringResource(R.string.enter_the_amount),
+                modifier = Modifier
+                    .padding(top = Dimens.spacingXl)
+                    .height(salaryFilterFieldHeight),
+            )
+
+            Spacer(
+                modifier = Modifier.weight(1f),
+            )
+
+            PrimaryButton(
+                text = stringResource(R.string.apply),
+                isVisible = uiState.isApplyButtonVisible,
+                onClickAction = onApplyClicked,
+                modifier = Modifier
+                    .padding(
+                        bottom = Dimens.spacingS,
+                        start = Dimens.spacingXxs,
+                        end = Dimens.spacingXxs,
+                    ),
+            )
+
+            ResetButton(
+                text = stringResource(R.string.reset),
+                isVisible = uiState.isResetButtonVisible,
+                onClickAction = onResetClicked,
+                modifier = Modifier
+                    .padding(
+                        bottom = Dimens.spacingXl,
+                        start = Dimens.spacingXxs,
+                        end = Dimens.spacingXxs,
+                    ),
+            )
+        }
+    }
+}
+    /*
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -86,3 +210,5 @@ fun FilteringSettingsScreen(navController: NavController) {
         }
     }
 }
+
+     */
