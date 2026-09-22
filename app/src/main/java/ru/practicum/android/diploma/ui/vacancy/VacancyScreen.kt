@@ -288,7 +288,7 @@ private fun VacancyDetails(
             val employmentAndSchedule = listOfNotNull(
                 vacancy.employment?.takeIf { it.isNotBlank() },
                 vacancy.schedule?.takeIf { it.isNotBlank() },
-            ).joinToString(separator = ",А ")
+            ).joinToString(separator = ",")
 
             if (employmentAndSchedule.isNotBlank()) {
                 Text(
