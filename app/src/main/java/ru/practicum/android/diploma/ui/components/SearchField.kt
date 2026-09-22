@@ -39,7 +39,8 @@ fun SearchField(
     query: String,
     onQueryChange: (String) -> Unit,
     onClearQuery: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    hint: String = stringResource(R.string.search_hint)
 ) {
     val shape = RoundedCornerShape(searchFieldCornerRadius)
     Box(
@@ -60,7 +61,7 @@ fun SearchField(
             ) {
                 if (query.isEmpty()) {
                     Text(
-                        text = stringResource(R.string.search_hint),
+                        text = hint,
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onTertiary
                     )
