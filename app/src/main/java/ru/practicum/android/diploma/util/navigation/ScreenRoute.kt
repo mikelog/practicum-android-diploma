@@ -11,4 +11,8 @@ sealed class ScreenRoute(val route: String) {
     object Vacancy : ScreenRoute("vacancy/{vacancyId}") {
         fun createRoute(vacancyId: String) = "vacancy/$vacancyId"
     }
+
+    object SelectionResult {
+        const val INDUSTRY_KEY = "selected_industry"
+    }
 }

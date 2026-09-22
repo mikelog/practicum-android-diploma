@@ -8,20 +8,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.domain.models.FilterIndustry
 import ru.practicum.android.diploma.domain.models.FilterParameters
 import ru.practicum.android.diploma.ui.components.PrimaryButton
 import ru.practicum.android.diploma.ui.components.ResetButton
@@ -38,6 +44,16 @@ fun FilteringSettingsScreen(
     viewModel: FilteringSettingsViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val selectedIndustry by remember(navController) {
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.getStateFlow<FilterIndustry?>(
+                key = ScreenRoute.SelectionResult.INDUSTRY_KEY,
+                initialValue = null
+            )
+            ?: kotlinx.coroutines.flow.MutableStateFlow(null)
+    }.collectAsStateWithLifecycle()
 
     val salaryState = rememberTextFieldState(
         initialText = uiState.parameters.salary
@@ -68,6 +84,14 @@ fun FilteringSettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigateUp() }) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_arrow_back_24dp),
+                            contentDescription = null,
+                        )
+                    }
+                },
                 title = {
                     Text(
                         text = stringResource(
@@ -95,6 +119,15 @@ fun FilteringSettingsScreen(
                 }
             ) {
                 Text(text = "Выбор отрасли")
+            }
+
+            selectedIndustry?.let { industry ->
+                Text(
+                    text = industry.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = Dimens.spacingS)
+                )
             }
 
             SalaryTextField(
