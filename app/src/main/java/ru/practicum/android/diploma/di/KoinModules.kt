@@ -13,4 +13,6 @@ val koinModules: List<Module> = listOf(
     mainSearchModule,
     vacancyDetailModule,
     favoritesModule,
+    industryModule,
+    filterSettingsModule
 )

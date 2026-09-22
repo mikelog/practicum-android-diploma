@@ -48,11 +48,15 @@ activityCompose = "1.9.0"
 # Coroutines
 coroutines = "1.8.1"
 
+# Immutable collections
+kotlinxImmutableCollections = "0.3.8"
+
 # Lifecycle
 lifecycle = "2.8.1"
 
 # Fragment
 fragment = "1.8.0"
+material3 = "1.4.0"
 
 [libraries]
 
@@ -126,6 +130,9 @@ compose-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-
 coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
+# Immutable collections
+kotlinx-immutableCollections = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinxImmutableCollections" }
+
 # Lifecycle
 lifecycle-viewmodelKtx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-livedataKtx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycle" }
@@ -135,6 +142,7 @@ lifecycle-runtimeCompose = { module = "androidx.lifecycle:lifecycle-runtime-comp
 # Fragment
 fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
 fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragment" }
+material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 [bundles]
 network = ["network-retrofit", "network-retrofitGson", "network-okhttp", "network-okhttpLogging"]
