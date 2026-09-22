@@ -127,4 +127,5 @@ dependencies {
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.compose.uiTestJunit4)
     debugImplementation(libs.compose.uiTestManifest)
+    implementation("org.jsoup:jsoup:1.18.3")
 }

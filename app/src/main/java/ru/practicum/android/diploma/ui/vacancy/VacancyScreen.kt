@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,7 +41,6 @@ import ru.practicum.android.diploma.domain.models.VacancyDetail
 import ru.practicum.android.diploma.ui.common.formatSalary
 import ru.practicum.android.diploma.ui.components.CompanyLogo
 import ru.practicum.android.diploma.ui.components.Placeholder
-import ru.practicum.android.diploma.ui.text.toAnnotatedDescription
 import ru.practicum.android.diploma.ui.theme.Dimens
 
 // Экран деталей вакансии: карточка работодателя
@@ -287,13 +285,22 @@ private fun VacancyDetails(
                 modifier = Modifier.padding(top = Dimens.spacingXs)
             )
 
-            Text(
-                text = vacancy.schedule ?: "",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = Dimens.spacingXs)
-            )
+            val employmentAndSchedule = listOfNotNull(
+                vacancy.employment?.takeIf { it.isNotBlank() },
+                vacancy.schedule?.takeIf { it.isNotBlank() },
+            ).joinToString(separator = ". ")
 
-            VacancyDescription(vacancy.description)
+            if (employmentAndSchedule.isNotBlank()) {
+                Text(
+                    text = employmentAndSchedule,
+                    style = MaterialTheme.typography.bodyLarge,
+                )
+            }
+
+            VacancyDescription(
+                description = vacancy.description,
+                modifier = Modifier.padding(top = Dimens.spacingXxl)
+            )
 
             SkillsSection(
                 skills = vacancy.skills,
@@ -306,25 +313,6 @@ private fun VacancyDetails(
             )
         }
     }
-}
-
-@Composable
-private fun VacancyDescription(
-    description: String?,
-) {
-    if (description.isNullOrBlank()) {
-        return
-    }
-
-    val formattedDescription = remember(description) {
-        description.toAnnotatedDescription()
-    }
-
-    Text(
-        text = formattedDescription,
-        style = MaterialTheme.typography.bodyLarge,
-        modifier = Modifier.padding(top = Dimens.spacingXxl),
-    )
 }
 
 // -----------------------------------Preview
