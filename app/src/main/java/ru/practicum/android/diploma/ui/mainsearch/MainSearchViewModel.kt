@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.network.Resource
@@ -42,6 +43,7 @@ class MainSearchViewModel(
     val searchStarted: SharedFlow<Unit> = _searchStarted.asSharedFlow()
 
     init {
+        refreshFilterState()
         viewModelScope.launch {
             query
                 .searchDebounce()
@@ -56,7 +58,20 @@ class MainSearchViewModel(
 
     fun onQueryCleared() {
         query.value = ""
-        _state.value = MainSearchState()
+        _state.value = MainSearchState(isFilterActive = _state.value.isFilterActive)
+    }
+
+    // Вызывается при каждом возврате на экран: фильтр мог быть сброшен без «Применить»
+    fun refreshFilterState() {
+        val isFilterActive = filterSettingsInteractor.get() != FilterParameters()
+        _state.update { it.copy(isFilterActive = isFilterActive) }
+    }
+
+    fun onFilterApplied() {
+        refreshFilterState()
+        val searchText = query.value
+        if (searchText.isBlank()) return
+        viewModelScope.launch { performSearch(searchText) }
     }
 
     fun onListScrolledToEnd() {

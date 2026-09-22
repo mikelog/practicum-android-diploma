@@ -85,7 +85,7 @@ fun FilteringSettingsScreen(
         topBar = {
             TopAppBar(
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             painter = painterResource(R.drawable.ic_arrow_back_24dp),
                             contentDescription = null,
@@ -168,6 +168,10 @@ fun FilteringSettingsScreen(
                     )
 
                     viewModel.onApplyClicked(parameters)
+                    navController.previousBackStackEntry
+                        ?.savedStateHandle
+                        ?.set(ScreenRoute.SelectionResult.FILTER_APPLIED_KEY, true)
+                    navController.popBackStack()
                 },
                 modifier = Modifier.padding(
                     bottom = Dimens.spacingS,
