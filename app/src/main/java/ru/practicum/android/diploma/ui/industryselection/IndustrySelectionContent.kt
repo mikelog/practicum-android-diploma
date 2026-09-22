@@ -10,3 +10,9 @@ sealed interface IndustrySelectionContent {
     data object NetworkError : IndustrySelectionContent
     data object ServerError : IndustrySelectionContent
 }
+
+data class IndustrySelectionState(
+    val query: String = "",
+    val content: IndustrySelectionContent = IndustrySelectionContent.Loading,
+    val selected: FilterIndustry? = null,
+)

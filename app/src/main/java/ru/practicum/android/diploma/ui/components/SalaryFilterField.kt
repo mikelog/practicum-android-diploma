@@ -29,6 +29,9 @@ import ru.practicum.android.diploma.ui.theme.Dimens
 // Поле "ожидаемая зарплата"
 private val salaryFilterFieldCornerRadius = 12.dp
 
+// 9 цифр гарантированно помещаются в Int — иначе toIntOrNull() молча вернёт null
+private const val SALARY_MAX_LENGTH = 9
+
 @Composable
 fun SalaryTextField(
     state: TextFieldState,
@@ -77,7 +80,7 @@ fun SalaryTextField(
         },
         lineLimits = TextFieldLineLimits.SingleLine,
         inputTransformation = InputTransformation {
-            if (!asCharSequence().all(Char::isDigit)) {
+            if (!asCharSequence().all(Char::isDigit) || length > SALARY_MAX_LENGTH) {
                 revertAllChanges()
             }
         },

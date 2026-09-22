@@ -4,45 +4,50 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import ru.practicum.android.diploma.domain.api.FilterSettingsInteractor
+import ru.practicum.android.diploma.domain.models.FilterIndustry
 import ru.practicum.android.diploma.domain.models.FilterParameters
 
+// Любое изменение настроек сразу сохраняется (ТЗ: «сохраняются автоматически сразу после изменения»)
 class FilteringSettingsViewModel(
     private val filterSettingsInteractor: FilterSettingsInteractor,
 ) : ViewModel() {
 
-    private val initialParameters: FilterParameters =
-        filterSettingsInteractor.get()
-
     private val _uiState = MutableStateFlow(
         FilteringSettingsUiState(
-            parameters = initialParameters
+            parameters = filterSettingsInteractor.get()
         )
     )
 
     val uiState: StateFlow<FilteringSettingsUiState> =
         _uiState.asStateFlow()
 
-    fun onApplyClicked(parameters: FilterParameters) {
-        filterSettingsInteractor.save(parameters)
+    fun onSalaryChanged(text: String) {
+        updateParameters { it.copy(salary = text.toIntOrNull()) }
+    }
 
-        _uiState.update { currentState ->
-            currentState.copy(
-                parameters = parameters
-            )
-        }
+    fun onOnlyWithSalaryToggled() {
+        updateParameters { it.copy(onlyWithSalary = !it.onlyWithSalary) }
+    }
+
+    fun onIndustrySelected(industry: FilterIndustry) {
+        updateParameters { it.copy(industry = industry) }
+    }
+
+    fun onIndustryCleared() {
+        updateParameters { it.copy(industry = null) }
     }
 
     fun onResetClicked() {
-        val defaultParameters = FilterParameters()
-
         filterSettingsInteractor.clear()
+        _uiState.value = FilteringSettingsUiState()
+    }
 
-        _uiState.update { currentState ->
-            currentState.copy(
-                parameters = defaultParameters
-            )
-        }
+    private fun updateParameters(transform: (FilterParameters) -> FilterParameters) {
+        val current = _uiState.value.parameters
+        val updated = transform(current)
+        if (updated == current) return
+        filterSettingsInteractor.save(updated)
+        _uiState.value = _uiState.value.copy(parameters = updated)
     }
 }
