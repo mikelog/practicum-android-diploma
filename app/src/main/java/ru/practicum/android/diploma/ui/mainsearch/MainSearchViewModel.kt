@@ -13,18 +13,24 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.data.network.Resource
+import ru.practicum.android.diploma.domain.api.FilterSettingsInteractor
 import ru.practicum.android.diploma.domain.api.SearchVacancyInteractor
+import ru.practicum.android.diploma.domain.models.FilterParameters
 import ru.practicum.android.diploma.domain.models.VacancySearchParams
 import ru.practicum.android.diploma.util.searchDebounce
 
 class MainSearchViewModel(
-    private val searchVacancyInteractor: SearchVacancyInteractor
+    private val searchVacancyInteractor: SearchVacancyInteractor,
+    private val filterSettingsInteractor: FilterSettingsInteractor,
 ) : ViewModel() {
 
     private val query = MutableStateFlow("")
 
     private var currentPage = 0
     private var totalPages = 1
+
+    // Фильтр фиксируется на первой странице, чтобы пагинация шла с теми же параметрами
+    private var currentFilter = FilterParameters()
 
     private val _state = MutableStateFlow(MainSearchState())
     val state: StateFlow<MainSearchState> = _state.asStateFlow()
@@ -70,7 +76,7 @@ class MainSearchViewModel(
         currentContent: MainSearchContent.Content,
     ) {
         when (val result = searchVacancyInteractor.searchVacancy(
-            VacancySearchParams(text = searchText, page = nextPage)
+            buildSearchParams(searchText, nextPage)
         )) {
             is Resource.Success -> {
                 if (searchText != query.value) {
@@ -110,10 +116,11 @@ class MainSearchViewModel(
         _searchStarted.emit(Unit)
         currentPage = 0
         totalPages = 1
+        currentFilter = filterSettingsInteractor.get()
         _state.value = _state.value.copy(content = MainSearchContent.Loading, isNextPageLoading = false)
 
         when (val result = searchVacancyInteractor.searchVacancy(
-            VacancySearchParams(text = searchText, page = 0)
+            buildSearchParams(searchText, 0)
         )) {
             is Resource.Success -> {
                 val response = result.data
@@ -138,6 +145,14 @@ class MainSearchViewModel(
             Resource.Loading -> Unit
         }
     }
+
+    private fun buildSearchParams(searchText: String, page: Int) = VacancySearchParams(
+        text = searchText,
+        industryId = currentFilter.industryId,
+        salary = currentFilter.salary,
+        onlyWithSalary = currentFilter.onlyWithSalary.takeIf { it },
+        page = page,
+    )
 
     private fun Resource.Error.toMainSearchContent(): MainSearchContent =
         if (code == -1 || code == null) {
