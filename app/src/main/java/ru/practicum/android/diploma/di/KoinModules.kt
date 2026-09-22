@@ -15,5 +15,4 @@ val koinModules: List<Module> = listOf(
     favoritesModule,
     industryModule,
     filterSettingsModule
-    industryModule,
 )
