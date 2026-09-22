@@ -18,6 +18,7 @@
     <string name="workplace_selection">Выбор места работы</string>
     <string name="сountry_selection">Выбор страны</string>
     <string name="industry_selection">Выбор отрасли</string>
+    <string name="industries_not_found">Отрасли не найдены</string>
     <string name="vacancy">Вакансия</string>
 
     <string name="main">Главная</string>
