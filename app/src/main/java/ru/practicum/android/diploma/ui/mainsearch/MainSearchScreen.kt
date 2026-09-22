@@ -78,15 +78,16 @@ fun MainSearchScreen(
     // Перезапускается при каждом возврате на экран (в т.ч. с экрана фильтра)
     LaunchedEffect(navController, viewModel) {
         viewModel.refreshFilterState()
-        val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle ?: return@LaunchedEffect
-        savedStateHandle
-            .getStateFlow(ScreenRoute.SelectionResult.FILTER_APPLIED_KEY, false)
-            .collect { isApplied ->
-                if (isApplied) {
-                    savedStateHandle[ScreenRoute.SelectionResult.FILTER_APPLIED_KEY] = false
-                    viewModel.onFilterApplied()
+        navController.currentBackStackEntry?.savedStateHandle?.let { savedStateHandle ->
+            savedStateHandle
+                .getStateFlow(ScreenRoute.SelectionResult.FILTER_APPLIED_KEY, false)
+                .collect { isApplied ->
+                    if (isApplied) {
+                        savedStateHandle[ScreenRoute.SelectionResult.FILTER_APPLIED_KEY] = false
+                        viewModel.onFilterApplied()
+                    }
                 }
-            }
+        }
     }
 
     LaunchedEffect(keyboardController, viewModel) {
