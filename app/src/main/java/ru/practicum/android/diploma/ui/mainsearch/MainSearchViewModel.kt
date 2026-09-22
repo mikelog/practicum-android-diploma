@@ -63,7 +63,7 @@ class MainSearchViewModel(
 
     // Вызывается при каждом возврате на экран: фильтр мог быть сброшен без «Применить»
     fun refreshFilterState() {
-        val isFilterActive = filterSettingsInteractor.get() != FilterParameters()
+        val isFilterActive = !filterSettingsInteractor.get().isEmpty
         _state.update { it.copy(isFilterActive = isFilterActive) }
     }
 
@@ -163,7 +163,7 @@ class MainSearchViewModel(
 
     private fun buildSearchParams(searchText: String, page: Int) = VacancySearchParams(
         text = searchText,
-        industryId = currentFilter.industryId,
+        industryId = currentFilter.industry?.id,
         salary = currentFilter.salary,
         onlyWithSalary = currentFilter.onlyWithSalary.takeIf { it },
         page = page,
