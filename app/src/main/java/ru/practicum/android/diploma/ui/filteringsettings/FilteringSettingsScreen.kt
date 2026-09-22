@@ -66,16 +66,16 @@ fun FilteringSettingsScreen(
 
     // Результат экрана выбора отрасли
     LaunchedEffect(navController, viewModel) {
-        val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle
-            ?: return@LaunchedEffect
-        savedStateHandle
-            .getStateFlow<FilterIndustry?>(ScreenRoute.SelectionResult.INDUSTRY_KEY, null)
-            .collect { industry ->
-                if (industry != null) {
-                    viewModel.onIndustrySelected(industry)
-                    savedStateHandle.remove<FilterIndustry>(ScreenRoute.SelectionResult.INDUSTRY_KEY)
+        navController.currentBackStackEntry?.savedStateHandle?.let { savedStateHandle ->
+            savedStateHandle
+                .getStateFlow<FilterIndustry?>(ScreenRoute.SelectionResult.INDUSTRY_KEY, null)
+                .collect { industry ->
+                    if (industry != null) {
+                        viewModel.onIndustrySelected(industry)
+                        savedStateHandle.remove<FilterIndustry>(ScreenRoute.SelectionResult.INDUSTRY_KEY)
+                    }
                 }
-            }
+        }
     }
 
     Scaffold(
