@@ -14,5 +14,6 @@ sealed class ScreenRoute(val route: String) {
 
     object SelectionResult {
         const val INDUSTRY_KEY = "selected_industry"
+        const val FILTER_APPLIED_KEY = "filter_applied"
     }
 }

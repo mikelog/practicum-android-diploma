@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -74,6 +75,20 @@ fun MainSearchScreen(
         }
     }
 
+    // Перезапускается при каждом возврате на экран (в т.ч. с экрана фильтра)
+    LaunchedEffect(navController, viewModel) {
+        viewModel.refreshFilterState()
+        val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle ?: return@LaunchedEffect
+        savedStateHandle
+            .getStateFlow(ScreenRoute.SelectionResult.FILTER_APPLIED_KEY, false)
+            .collect { isApplied ->
+                if (isApplied) {
+                    savedStateHandle[ScreenRoute.SelectionResult.FILTER_APPLIED_KEY] = false
+                    viewModel.onFilterApplied()
+                }
+            }
+    }
+
     LaunchedEffect(keyboardController, viewModel) {
         viewModel.searchStarted.collect {
             keyboardController?.hide()
@@ -84,6 +99,7 @@ fun MainSearchScreen(
         query = state.query,
         content = state.content,
         isNextPageLoading = state.isNextPageLoading,
+        isFilterActive = state.isFilterActive,
         onQueryChange = viewModel::onQueryChanged,
         onClearQuery = viewModel::onQueryCleared,
         onListScrolledToEnd = viewModel::onListScrolledToEnd,
@@ -98,6 +114,7 @@ private fun MainSearchScreenContent(
     query: String,
     content: MainSearchContent,
     isNextPageLoading: Boolean,
+    isFilterActive: Boolean,
     onQueryChange: (String) -> Unit,
     onClearQuery: () -> Unit,
     onListScrolledToEnd: () -> Unit,
@@ -110,10 +127,19 @@ private fun MainSearchScreenContent(
                 title = { Text(text = stringResource(R.string.vacancy_search)) },
                 actions = {
                     IconButton(onClick = onFilterClick) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_filter_off_24dp),
-                            contentDescription = stringResource(R.string.filtering_settings)
-                        )
+                        if (isFilterActive) {
+                            // У иконки «вкл» свой фон из макета — тинт не применяем
+                            Icon(
+                                painter = painterResource(R.drawable.ic_filter_on_24dp),
+                                contentDescription = stringResource(R.string.filtering_settings),
+                                tint = Color.Unspecified
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_filter_off_24dp),
+                                contentDescription = stringResource(R.string.filtering_settings)
+                            )
+                        }
                     }
                 },
                 expandedHeight = Dimens.topBarHeight
@@ -280,6 +306,7 @@ private fun MainSearchScreenIdlePreview() {
             query = "",
             content = MainSearchContent.Idle,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -297,6 +324,7 @@ private fun MainSearchScreenLoadingPreview() {
             query = "Android",
             content = MainSearchContent.Loading,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -314,6 +342,7 @@ private fun MainSearchScreenContentPreview() {
             query = PREVIEW_QUERY,
             content = MainSearchContent.Content(vacancies = previewVacancies, found = 286),
             isNextPageLoading = false,
+            isFilterActive = true,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -331,6 +360,7 @@ private fun MainSearchScreenEmptyPreview() {
             query = "Абвгд",
             content = MainSearchContent.Empty,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -348,6 +378,7 @@ private fun MainSearchScreenNetworkErrorPreview() {
             query = PREVIEW_QUERY,
             content = MainSearchContent.NetworkError,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
@@ -365,6 +396,7 @@ private fun MainSearchScreenServerErrorPreview() {
             query = PREVIEW_QUERY,
             content = MainSearchContent.ServerError,
             isNextPageLoading = false,
+            isFilterActive = false,
             onListScrolledToEnd = {},
             onQueryChange = {},
             onClearQuery = {},
