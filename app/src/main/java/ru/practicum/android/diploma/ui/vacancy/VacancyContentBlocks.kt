@@ -29,6 +29,7 @@ import ru.practicum.android.diploma.ui.text.DescriptionBlock
 import ru.practicum.android.diploma.ui.text.toDescriptionBlocks
 import ru.practicum.android.diploma.ui.theme.Dimens
 
+@Suppress("CognitiveComplexMethod")
 @Composable
 fun VacancyDescription(
     description: String?,
