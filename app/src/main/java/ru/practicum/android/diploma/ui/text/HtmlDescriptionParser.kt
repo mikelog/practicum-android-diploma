@@ -25,7 +25,7 @@ fun String.toDescriptionBlocks(): List<DescriptionBlock> {
     return parseChildren(body)
 }
 
-fun parseChildren(parent: Element): List<DescriptionBlock> {
+private fun parseChildren(parent: Element): List<DescriptionBlock> {
     return parent.children().flatMap { element ->
         when (element.normalName()) {
             "h2" -> {
