@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,6 +21,7 @@ import ru.practicum.android.diploma.ui.theme.Dimens
 // Иллюстрации-заглушки состояний экрана (Idle/Empty/ошибки)
 private val placeholderImageWidth = 328.dp
 private val placeholderImageHeight = 223.dp
+private val placeholderTextWidth = 268.dp
 
 /**
  * Переиспользуемая заглушка-иллюстрация с подписью для пустых состояний и ошибок
@@ -47,11 +49,9 @@ fun Placeholder(
             if (message != null) {
                 Text(
                     text = message,
-                    modifier = Modifier.padding(
-                        top = Dimens.spacingL,
-                        start = Dimens.spacingXl,
-                        end = Dimens.spacingXl
-                    ),
+                    modifier = Modifier
+                        .padding(top = Dimens.spacingL)
+                        .width(placeholderTextWidth),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center

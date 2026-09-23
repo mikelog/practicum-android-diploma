@@ -8,17 +8,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.snapshotFlow
@@ -44,6 +47,7 @@ private val salaryFilterFieldHeight = 51.dp
 
 // Пункт фильтра («Отрасль») и строка с чекбоксом (по макету Figma: List Item 60dp)
 private val filterItemHeight = 60.dp
+private val iconSize = 24.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -228,15 +232,24 @@ private fun FilterItem(
             Icon(
                 painter = painterResource(R.drawable.ic_arrow_forward_24dp),
                 contentDescription = stringResource(R.string.cd_open),
-                tint = MaterialTheme.colorScheme.onBackground
+                modifier = Modifier.size(iconSize),
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         } else {
-            IconButton(onClick = onClear) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_close_24dp),
-                    contentDescription = stringResource(R.string.cd_clear_value),
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
+            CompositionLocalProvider(
+                LocalMinimumInteractiveComponentSize provides 0.dp
+            ) {
+                IconButton(
+                    onClick = onClear,
+                    modifier = Modifier.size(iconSize),
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_close_24dp),
+                        contentDescription = stringResource(R.string.cd_clear_value),
+                        modifier = Modifier.size(iconSize),
+                        tint = MaterialTheme.colorScheme.onBackground,
+                    )
+                }
             }
         }
     }

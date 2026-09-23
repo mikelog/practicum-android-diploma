@@ -39,7 +39,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.koinViewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.domain.models.Salary
@@ -138,7 +137,9 @@ private fun MainSearchScreenContent(
                         } else {
                             Icon(
                                 painter = painterResource(R.drawable.ic_filter_off_24dp),
-                                contentDescription = stringResource(R.string.filtering_settings)
+                                contentDescription = stringResource(R.string.filtering_settings),
+                                tint = MaterialTheme.colorScheme.onBackground
+
                             )
                         }
                     }

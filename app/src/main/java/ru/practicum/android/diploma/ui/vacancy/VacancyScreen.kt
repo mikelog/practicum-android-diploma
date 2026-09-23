@@ -294,6 +294,7 @@ private fun VacancyDetails(
                 Text(
                     text = employmentAndSchedule,
                     style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(top = Dimens.spacingS)
                 )
             }
 
