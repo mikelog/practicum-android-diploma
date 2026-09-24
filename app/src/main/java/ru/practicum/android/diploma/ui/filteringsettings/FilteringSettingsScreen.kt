@@ -232,16 +232,16 @@ private fun FilterItem(
                 tint = MaterialTheme.colorScheme.onBackground,
             )
         } else {
-                IconButton(
-                    onClick = onClear,
-                    modifier = Modifier.offset(x = Dimens.spacingM)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_close_24dp),
-                        contentDescription = stringResource(R.string.cd_clear_value),
-                        tint = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
+            IconButton(
+                onClick = onClear,
+                modifier = Modifier.offset(x = Dimens.spacingM)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_close_24dp),
+                    contentDescription = stringResource(R.string.cd_clear_value),
+                    tint = MaterialTheme.colorScheme.onBackground,
+                )
+            }
         }
     }
 }
