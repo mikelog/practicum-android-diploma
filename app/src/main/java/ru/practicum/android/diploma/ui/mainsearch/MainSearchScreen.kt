@@ -139,7 +139,6 @@ private fun MainSearchScreenContent(
                                 painter = painterResource(R.drawable.ic_filter_off_24dp),
                                 contentDescription = stringResource(R.string.filtering_settings),
                                 tint = MaterialTheme.colorScheme.onBackground
-
                             )
                         }
                     }
