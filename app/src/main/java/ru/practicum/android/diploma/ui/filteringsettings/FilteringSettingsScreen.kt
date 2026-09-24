@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.clearText
@@ -228,14 +229,17 @@ private fun FilterItem(
             Icon(
                 painter = painterResource(R.drawable.ic_arrow_forward_24dp),
                 contentDescription = stringResource(R.string.cd_open),
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         } else {
-            IconButton(onClick = onClear) {
+            IconButton(
+                onClick = onClear,
+                modifier = Modifier.offset(x = Dimens.spacingM)
+            ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_close_24dp),
                     contentDescription = stringResource(R.string.cd_clear_value),
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
