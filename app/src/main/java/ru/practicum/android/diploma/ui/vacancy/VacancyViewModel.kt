@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.practicum.android.diploma.data.network.Resource
+import ru.practicum.android.diploma.domain.models.Resource
 import ru.practicum.android.diploma.domain.api.FavoriteVacancyInteractor
 import ru.practicum.android.diploma.domain.api.VacancyDetailInteractor
 

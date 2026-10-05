@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.data.network.Resource
+import ru.practicum.android.diploma.domain.models.Resource
 import ru.practicum.android.diploma.domain.api.FilterSettingsInteractor
 import ru.practicum.android.diploma.domain.api.SearchVacancyInteractor
 import ru.practicum.android.diploma.domain.models.FilterParameters

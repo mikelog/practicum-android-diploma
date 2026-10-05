@@ -7,6 +7,7 @@ import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.BuildConfig
+import ru.practicum.android.diploma.domain.models.Resource
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 

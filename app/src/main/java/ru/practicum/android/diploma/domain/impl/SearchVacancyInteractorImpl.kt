@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.domain.impl
 
-import ru.practicum.android.diploma.data.network.Resource
+import ru.practicum.android.diploma.domain.models.Resource
 import ru.practicum.android.diploma.domain.api.SearchVacancyInteractor
 import ru.practicum.android.diploma.domain.api.SearchVacancyRepository
 import ru.practicum.android.diploma.domain.models.VacancyResponse
