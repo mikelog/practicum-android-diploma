@@ -4,7 +4,7 @@ import ru.practicum.android.diploma.data.dto.FilterIndustryDto
 import ru.practicum.android.diploma.data.mapper.toDomain
 import ru.practicum.android.diploma.data.network.ConnectivityChecker
 import ru.practicum.android.diploma.data.network.NetworkClient
-import ru.practicum.android.diploma.data.network.Resource
+import ru.practicum.android.diploma.domain.models.Resource
 import ru.practicum.android.diploma.data.network.VacancyApiService
 import ru.practicum.android.diploma.domain.api.IndustryRepository
 import ru.practicum.android.diploma.domain.models.FilterIndustry
