@@ -101,7 +101,7 @@ fun FilterAreaDto.toDomain(): FilterArea = FilterArea(
 )
 
 fun FilterIndustryDto.toDomain(): FilterIndustry = FilterIndustry(
-    id = id,
+    id = id.toInt(),
     name = name
 )
 

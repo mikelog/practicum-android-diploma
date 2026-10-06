@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.ui.vacancy
 
-import androidx.annotation.StringRes
 import ru.practicum.android.diploma.domain.models.VacancyDetail
 
 sealed interface VacancyContent {
@@ -12,9 +11,9 @@ sealed interface VacancyContent {
         val isFavorite: Boolean = false
     ) : VacancyContent
 
-    data class Error(
-        @StringRes val messageRes: Int
-    ) : VacancyContent
+    data object NetworkError : VacancyContent
+
+    data object ServerError : VacancyContent
 
     data object NotFound : VacancyContent
 }

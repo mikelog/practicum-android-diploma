@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.ui.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -20,7 +21,7 @@ class FavoritesViewModel(
             if (vacancies.isEmpty()) {
                 FavoritesContent.Empty
             } else {
-                FavoritesContent.Content(vacancies.map { it.toVacancyCard() })
+                FavoritesContent.Content(vacancies.map { it.toVacancyCard() }.toImmutableList())
             }
         }
         .catch { emit(FavoritesContent.Error) }

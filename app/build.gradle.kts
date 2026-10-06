@@ -74,6 +74,7 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
     implementation(libs.compose.materialIconsExtended)
+    implementation(libs.material3)
     debugImplementation(libs.compose.uiTooling)
 
     // Networking
@@ -101,6 +102,9 @@ dependencies {
     // Coroutines
     implementation(libs.bundles.coroutines)
 
+    // Immutable collections
+    implementation(libs.kotlinx.immutableCollections)
+
     // Lifecycle
     implementation(libs.bundles.lifecycle)
 
@@ -123,4 +127,5 @@ dependencies {
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.compose.uiTestJunit4)
     debugImplementation(libs.compose.uiTestManifest)
+    implementation("org.jsoup:jsoup:1.18.3")
 }

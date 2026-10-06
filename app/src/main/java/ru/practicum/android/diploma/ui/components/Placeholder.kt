@@ -14,7 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import ru.practicum.android.diploma.ui.theme.Dimens
+
+// Иллюстрации-заглушки состояний экрана (Idle/Empty/ошибки)
+private val placeholderImageWidth = 328.dp
+private val placeholderImageHeight = 223.dp
 
 /**
  * Переиспользуемая заглушка-иллюстрация с подписью для пустых состояний и ошибок
@@ -35,8 +40,8 @@ fun Placeholder(
                 painter = painterResource(image),
                 contentDescription = null,
                 modifier = Modifier.size(
-                    width = Dimens.placeholderImageWidth,
-                    height = Dimens.placeholderImageHeight
+                    width = placeholderImageWidth,
+                    height = placeholderImageHeight
                 )
             )
             if (message != null) {

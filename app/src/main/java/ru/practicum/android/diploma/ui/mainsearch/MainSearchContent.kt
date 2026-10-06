@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.ui.mainsearch
 
+import kotlinx.collections.immutable.ImmutableList
 import ru.practicum.android.diploma.domain.models.VacancyCard
 
 sealed interface MainSearchContent {
@@ -9,7 +10,7 @@ sealed interface MainSearchContent {
     data object Loading : MainSearchContent
 
     data class Content(
-        val vacancies: List<VacancyCard>,
+        val vacancies: ImmutableList<VacancyCard>,
         val found: Int
     ) : MainSearchContent
 

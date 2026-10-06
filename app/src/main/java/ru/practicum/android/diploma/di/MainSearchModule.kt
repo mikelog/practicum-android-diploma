@@ -26,6 +26,7 @@ val mainSearchModule = module {
     viewModel {
         MainSearchViewModel(
             searchVacancyInteractor = get(),
+            filterSettingsInteractor = get(),
         )
     }
 }
