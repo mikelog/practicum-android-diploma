@@ -163,7 +163,7 @@ fun SkillsSection(
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(R.string.key_skills),
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleLarge
         )
 
         skills.forEachIndexed { index, skill ->
